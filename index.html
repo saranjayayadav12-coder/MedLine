@@ -117,10 +117,10 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 .empty-state i { font-size:4rem; margin-bottom:16px; opacity:0.3; display:block; }
 
 /* CHAT */
-.chat-container { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:20px; overflow:hidden; }
+.chat-container { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:20px; overflow:hidden; display: flex; flex-direction: column; }
 .chat-header { padding:16px 20px; background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.2)); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:12px; }
 .ai-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#3b82f6,#8b5cf6); display:flex; align-items:center; justify-content:center; position:relative; }
-.ai-avatar::after { content:''; position:absolute; width:10px; height:10px; background:#10b981; border:2px solid #0a0e27; border-radius:50%; bottom:0; right:0; animation:pulse 2s infinite; }
+.ai-avatar::after { content:'absolute'; width:10px; height:10px; background:#10b981; border:2px solid #0a0e27; border-radius:50%; bottom:0; right:0; animation:pulse 2s infinite; }
 @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.2);opacity:0.8} }
 
 .chat-box { height:55vh; overflow-y:auto; padding:20px; scroll-behavior:smooth; }
@@ -129,7 +129,7 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 
 .msg-wrapper { margin-bottom:16px; animation:msgSlide 0.4s ease; }
 @keyframes msgSlide { from{transform:translateY(10px);opacity:0} to{transform:translateY(0);opacity:1} }
-.msg { padding:12px 16px; border-radius:16px; display:inline-block; max-width:80%; line-height:1.6; word-wrap:break-word; }
+.msg { padding:12px 16px; border-radius:16px; display:inline-block; max-width:80%; line-height:1.6; word-wrap:break-word; text-align: left; }
 .user-msg { background:linear-gradient(135deg,#3b82f6,#2563eb); color:white; border-bottom-right-radius:4px; }
 .ai-msg { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); color:#e2e8f0; border-bottom-left-radius:4px; }
 
@@ -138,16 +138,18 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 .typing span:nth-child(2){animation-delay:0.2s} .typing span:nth-child(3){animation-delay:0.4s}
 @keyframes bounce { 0%,60%,100%{transform:translateY(0);opacity:0.5} 30%{transform:translateY(-8px);opacity:1} }
 
-.chat-input-area { padding:16px 20px; background:rgba(0,0,0,0.2); border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:10px; align-items:center; }
+.chat-input-area { padding:16px 20px; background:rgba(0,0,0,0.2); display:flex; gap:10px; align-items:center; border-top:1px solid rgba(255,255,255,0.05); }
 .chat-input { flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:white; padding:12px 16px; border-radius:12px; outline:none; transition:all 0.3s; }
 .chat-input:focus { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.2); }
 .chat-input::placeholder { color:#64748b; }
 .send-btn { background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:white; padding:12px 20px; border-radius:12px; font-weight:600; transition:all 0.3s; border:none; cursor:pointer; }
 .send-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(59,130,246,0.4); }
 
-/* RX UPLOAD BUTTON */
+/* RX UPLOAD BUTTON & FILE PREVIEW */
 .rx-upload-btn { background:rgba(139,92,246,0.2); border:1px solid rgba(139,92,246,0.4); color:#a78bfa; padding:12px 14px; border-radius:12px; cursor:pointer; transition:all 0.3s; flex-shrink:0; font-size:1rem; line-height:1; }
 .rx-upload-btn:hover { background:rgba(139,92,246,0.35); border-color:#8b5cf6; color:white; transform:translateY(-2px); box-shadow:0 6px 20px rgba(139,92,246,0.3); }
+
+#file-preview-container { display:none; padding:12px 20px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.1); align-items:center; gap:12px; }
 
 /* RX ANALYSIS STYLES */
 .rx-analysis-card { background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(59,130,246,0.12)); border:1px solid rgba(139,92,246,0.35); padding:18px; border-radius:14px; margin-top:10px; }
@@ -356,6 +358,7 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             <button id="tab-login" class="active" onclick="switchTab('login')">Login</button>
             <button id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
         </div>
+        
         <div id="signup-name-wrap" class="inp-wrap" style="display:none;">
             <i class="fas fa-user"></i>
             <input id="reg-name" class="login-input" type="text" placeholder="Full Name">
@@ -363,6 +366,19 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
         <div class="inp-wrap">
             <i class="fas fa-envelope"></i>
             <input id="reg-email" class="login-input" type="text" placeholder="Email or Phone Number">
+        </div>
+        <div id="signup-age-wrap" class="inp-wrap" style="display:none;">
+            <i class="fas fa-calendar-alt"></i>
+            <input id="reg-age" class="login-input" type="number" placeholder="Age" min="1" max="120">
+        </div>
+        <div id="signup-gender-wrap" class="inp-wrap" style="display:none;">
+            <i class="fas fa-venus-mars"></i>
+            <select id="reg-gender" class="login-input" style="appearance: none; color: #64748b;" onchange="this.style.color='white'">
+                <option value="" disabled selected>Select Gender</option>
+                <option value="Male" style="color: black;">Male</option>
+                <option value="Female" style="color: black;">Female</option>
+                <option value="Other" style="color: black;">Other</option>
+            </select>
         </div>
         <div class="inp-wrap">
             <i class="fas fa-lock"></i>
@@ -383,14 +399,12 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 <div id="app" style="display:none;">
 <div class="app-wrap">
 
-    <!-- ═══════════════ SIDEBAR ═══════════════ -->
     <div class="sidebar glass">
         <div class="logo mb-8"><i class="fas fa-heartbeat"></i> MediLine</div>
         <nav>
-            <!-- Main section -->
             <div class="nav-section-label">Main</div>
             <button class="nav-btn active" id="nb-home"         onclick="nav('home')">        <i class="fas fa-home"></i>            Home</button>
-            <button class="nav-btn"        id="nb-dashboard"    onclick="nav('dashboard')">   <i class="fas fa-chart-line"></i>     Dashboard</button>
+            <button class="nav-btn"        id="nb-dashboard"    onclick="nav('dashboard')">   <i class="fas fa-chart-line"></i>      Dashboard</button>
 
             <div class="nav-divider"></div>
             <div class="nav-section-label">Services</div>
@@ -421,25 +435,63 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
         </div>
     </div>
 
-    <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
     <div class="main glass">
 
-        <!-- HOME -->
         <div id="pg-home">
             <h2 class="page-title">Welcome Back, <span id="home-name">Friend</span>! 👋</h2>
-            <p class="page-subtitle">Top rated specialists ready to help you today</p>
-            <div id="home-doctor-list" class="doctor-grid"></div>
+            <p class="page-subtitle">Your comprehensive digital healthcare companion.</p>
+
+            <div class="glass p-6 md:p-8 mb-6" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1)); border:1px solid rgba(59,130,246,0.2); border-radius: 20px;">
+                <h3 class="text-2xl font-bold mb-3 text-white">Welcome to MediLine AI</h3>
+                <p class="text-slate-300 leading-relaxed max-w-3xl mb-8">
+                    MediLine AI is your one-stop solution for all your medical needs. We bring world-class healthcare directly to your fingertips. Experience care that is accessible, personalized, and always secure, backed by cutting-edge AI diagnostics and top-rated medical specialists.
+                </p>
+                
+                <h4 class="text-xl font-bold mb-6 text-white border-b border-white/10 pb-3"><i class="fas fa-users text-blue-400 mr-2"></i>Meet the Team</h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(59,130,246,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);">SY</div>
+                        <h5 class="font-bold text-lg text-white mb-1">Saranjaya Yadav</h5>
+                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(59,130,246,0.2); color:#60a5fa;">Founder</div>
+                        <p class="text-sm text-slate-400 italic mb-5">"Innovating healthcare for a healthier, more connected tomorrow."</p>
+                        <div class="flex justify-center gap-5 mt-auto">
+                            <a href="#" class="text-slate-400 hover:text-pink-500 transition-colors transform hover:scale-110"><i class="fab fa-instagram text-xl"></i></a>
+                            <a href="#" class="text-slate-400 hover:text-white transition-colors transform hover:scale-110"><i class="fab fa-github text-xl"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(139,92,246,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">SB</div>
+                        <h5 class="font-bold text-lg text-white mb-1">Subham Bose</h5>
+                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(139,92,246,0.2); color:#a78bfa;">Core Member</div>
+                        <p class="text-sm text-slate-400 italic mb-5">"Code is poetry, and building systems that save lives is our masterpiece."</p>
+                        <div class="flex justify-center gap-5 mt-auto">
+                            <a href="#" class="text-slate-400 hover:text-pink-500 transition-colors transform hover:scale-110"><i class="fab fa-instagram text-xl"></i></a>
+                            <a href="#" class="text-slate-400 hover:text-white transition-colors transform hover:scale-110"><i class="fab fa-github text-xl"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(16,185,129,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,#10b981,#3b82f6);">A</div>
+                        <h5 class="font-bold text-lg text-white mb-1">Aritra</h5>
+                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(16,185,129,0.2); color:#34d399;">Core Member</div>
+                        <p class="text-sm text-slate-400 italic mb-5">"Bridging the gap between cutting-edge AI and human empathy."</p>
+                        <div class="flex justify-center gap-5 mt-auto">
+                            <a href="#" class="text-slate-400 hover:text-pink-500 transition-colors transform hover:scale-110"><i class="fab fa-instagram text-xl"></i></a>
+                            <a href="#" class="text-slate-400 hover:text-white transition-colors transform hover:scale-110"><i class="fab fa-github text-xl"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- ═══════ DASHBOARD ═══════ -->
         <div id="pg-dashboard" style="display:none;">
             <h2 class="page-title">Dashboard</h2>
             <p class="page-subtitle">Your health overview at a glance</p>
 
-            <!-- Stat cards -->
             <div class="stat-grid" id="dash-stat-grid"></div>
 
-            <!-- Quick actions -->
             <div class="dash-section-title"><i class="fas fa-bolt"></i> Quick Actions</div>
             <div class="quick-action-grid">
                 <div class="quick-action-btn" onclick="nav('ai')">
@@ -462,9 +514,7 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 </div>
             </div>
 
-            <!-- Two-column: Activity + Health score -->
             <div class="dash-two-col">
-                <!-- Weekly activity -->
                 <div>
                     <div class="dash-section-title"><i class="fas fa-chart-bar"></i> Weekly Activity</div>
                     <div class="about-section" style="padding:20px;">
@@ -472,7 +522,6 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                         <div class="bar-chart" id="dash-bar-chart"></div>
                     </div>
                 </div>
-                <!-- Health score ring -->
                 <div>
                     <div class="dash-section-title"><i class="fas fa-heart"></i> Health Score</div>
                     <div class="ring-wrap">
@@ -491,16 +540,13 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 </div>
             </div>
 
-            <!-- Health tip -->
             <div class="dash-section-title"><i class="fas fa-lightbulb"></i> Health Tip of the Day</div>
             <div class="health-tip-card" id="dash-tip"></div>
 
-            <!-- Recent appointments -->
             <div class="dash-section-title"><i class="fas fa-clock"></i> Recent Appointments</div>
             <div id="dash-appts"></div>
         </div>
 
-        <!-- AI -->
         <div id="pg-ai" style="display:none;">
             <h2 class="page-title">AI Health Analyzer</h2>
             <p class="page-subtitle">Conversational medical AI · Document & Rx Scanner</p>
@@ -512,21 +558,19 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                         <div class="text-xs text-slate-400">Advanced Medical Assistant · Rx & Doc Scanner</div>
                     </div>
                     <div class="ml-auto flex items-center gap-10">
-                        <div style="background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.4);border-radius:20px;padding:4px 10px;font-size:0.7rem;color:#a78bfa;white-space:nowrap;">
-                            <i class="fas fa-file-medical mr-1"></i>Doc Scan
-                        </div>
                         <button onclick="resetChat()" class="text-xs text-slate-400 hover:text-white transition-colors">
                             <i class="fas fa-redo mr-1"></i>Reset
                         </button>
                     </div>
                 </div>
                 <div id="chat-box" class="chat-box"></div>
+                <div id="file-preview-container"></div>
                 <div class="chat-input-area">
                     <input type="file" id="rx-file-inp" accept="image/*,application/pdf,text/plain" style="display:none" onchange="handleRxUpload(event)">
-                    <button class="rx-upload-btn" onclick="triggerRxUpload()" title="Upload Medical Document or Image for AI Analysis">
+                    <button class="rx-upload-btn" onclick="triggerRxUpload()" title="Attach Medical Document or Image for AI Analysis">
                         <i class="fas fa-paperclip"></i>
                     </button>
-                    <input id="chat-inp" class="chat-input" placeholder="Describe symptoms, use voice, or upload a document 📎" onkeydown="if(event.key==='Enter')sendMsg()">
+                    <input id="chat-inp" class="chat-input" placeholder="Describe symptoms, use voice, or attach a document 📎" onkeydown="if(event.key==='Enter')sendMsg()">
                     <button id="voice-mic-btn" class="mic-btn" onclick="toggleVoiceInput()" title="Click to speak">
                         <i class="fas fa-microphone" id="mic-icon"></i>
                         <span id="mic-status" class="mic-status"></span>
@@ -536,14 +580,12 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             </div>
         </div>
 
-        <!-- APPOINTMENTS -->
         <div id="pg-appointments" style="display:none;">
             <h2 class="page-title">My Appointments</h2>
             <p class="page-subtitle">Your scheduled consultations</p>
             <div id="appt-list"></div>
         </div>
 
-        <!-- DOCTORS -->
         <div id="pg-doctors" style="display:none;">
             <h2 class="page-title">Find a Specialist</h2>
             <p class="page-subtitle">Browse by category · <span class="text-blue-400">Click any doctor to view profile & book</span></p>
@@ -551,7 +593,6 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             <div id="filtered-docs" class="doctor-grid"></div>
         </div>
 
-        <!-- PROFILE -->
         <div id="pg-profile" style="display:none;">
             <h2 class="page-title">My Profile</h2>
             <p class="page-subtitle">Manage your personal and medical information</p>
@@ -642,12 +683,10 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             </div>
         </div>
 
-        <!-- ═══════ ABOUT PAGE ═══════ -->
         <div id="pg-about" style="display:none;">
             <h2 class="page-title">About MediLine AI</h2>
             <p class="page-subtitle">Advanced Healthcare Platform · Version 2.0</p>
 
-            <!-- Hero banner -->
             <div class="about-hero mb-6">
                 <div class="about-logo mb-2"><i class="fas fa-heartbeat"></i> MediLine AI</div>
                 <p class="text-slate-300 max-w-xl mx-auto text-sm leading-relaxed" style="position:relative;z-index:1;">
@@ -675,7 +714,6 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 </div>
             </div>
 
-            <!-- Key features -->
             <div class="dash-section-title"><i class="fas fa-star"></i> Key Features</div>
             <div class="feature-grid mb-6">
                 <div class="feature-card">
@@ -720,7 +758,6 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 </div>
             </div>
 
-            <!-- How it works -->
             <div class="dash-section-title"><i class="fas fa-map-signs"></i> How It Works</div>
             <div class="about-section mb-6">
                 <div class="flex flex-col gap-5">
@@ -743,7 +780,6 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 </div>
             </div>
 
-            <!-- Tech stack -->
             <div class="dash-section-title"><i class="fas fa-code"></i> Technology</div>
             <div class="about-section mb-6">
                 <div class="text-sm text-slate-400 mb-3">Built with modern web technologies — no backend required.</div>
@@ -759,7 +795,6 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 </div>
             </div>
 
-            <!-- App info -->
             <div class="dash-section-title"><i class="fas fa-info"></i> App Information</div>
             <div class="about-section mb-6">
                 <div class="about-info-row">
@@ -792,7 +827,6 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 </div>
             </div>
 
-            <!-- Disclaimer -->
             <div class="rx-disclaimer" style="font-size:0.82rem;">
                 <i class="fas fa-exclamation-triangle mr-2"></i>
                 <b>Medical Disclaimer:</b> MediLine AI is intended for informational and educational purposes only. 
@@ -802,16 +836,13 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             </div>
         </div>
 
-    </div><!-- /main -->
-</div>
+    </div></div>
 </div>
 
-<!-- BOOKING MODAL -->
 <div id="booking-modal" class="modal-overlay" onclick="if(event.target===this)closeModal('booking-modal')">
     <div class="modal review-scroll"><div id="booking-content"></div></div>
 </div>
 
-<!-- CALL MODAL -->
 <div id="call-modal" class="modal-overlay" onclick="if(event.target===this)closeModal('call-modal')">
     <div class="modal review-scroll">
         <div class="flex items-center justify-between mb-4">
@@ -839,16 +870,16 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 <script>
 /* ════════════════ DATA ════════════════ */
 let DOCTORS = [
-    {id:1, name:"Dr Amit Sharma",  cat:"Heart",   spec:"Cardiologist",       rating:"4.9", exp:"15 yrs", fee:"₹800",  hospital:"Apollo Hospital",    dist:"2.3 km"},
+    {id:1, name:"Dr Amit Sharma",  cat:"Heart",  spec:"Cardiologist",        rating:"4.9", exp:"15 yrs", fee:"₹800",  hospital:"Apollo Hospital",    dist:"2.3 km"},
     {id:2, name:"Dr Priya Singh",  cat:"Dental",  spec:"Dentist",            rating:"4.7", exp:"10 yrs", fee:"₹500",  hospital:"Smile Care Clinic",  dist:"1.8 km"},
-    {id:3, name:"Dr Rahul Verma",  cat:"General", spec:"General Physician",  rating:"4.5", exp:"12 yrs", fee:"₹400",  hospital:"City Hospital",       dist:"0.9 km"},
-    {id:4, name:"Dr Sameer Khan",  cat:"Eye",     spec:"Ophthalmologist",    rating:"4.8", exp:"14 yrs", fee:"₹600",  hospital:"Vision Plus",         dist:"3.1 km"},
-    {id:5, name:"Dr Sunita Rao",   cat:"Brain",   spec:"Neurologist",        rating:"4.9", exp:"18 yrs", fee:"₹1000", hospital:"NeuroCare",           dist:"4.2 km"},
-    {id:6, name:"Dr Kavya Mehta",  cat:"Skin",    spec:"Dermatologist",      rating:"4.8", exp:"11 yrs", fee:"₹700",  hospital:"SkinGlow Clinic",     dist:"2.7 km"},
-    {id:7, name:"Dr Arjun Patel",  cat:"Bone",    spec:"Orthopedic",         rating:"4.7", exp:"13 yrs", fee:"₹750",  hospital:"BoneFit Center",      dist:"3.5 km"},
-    {id:8, name:"Dr Neha Kapoor",  cat:"Stomach", spec:"Gastroenterologist", rating:"4.6", exp:"9 yrs",  fee:"₹650",  hospital:"GutCare Hospital",    dist:"2.1 km"},
-    {id:9, name:"Dr Ravi Menon",   cat:"Heart",   spec:"Cardiologist",       rating:"4.6", exp:"11 yrs", fee:"₹750",  hospital:"HeartBeat Center",    dist:"3.8 km"},
-    {id:10,name:"Dr Anjali Das",   cat:"Skin",    spec:"Dermatologist",      rating:"4.7", exp:"8 yrs",  fee:"₹600",  hospital:"DermaCare Clinic",    dist:"1.5 km"},
+    {id:3, name:"Dr Rahul Verma",  cat:"General", spec:"General Physician",  rating:"4.5", exp:"12 yrs", fee:"₹400",  hospital:"City Hospital",        dist:"0.9 km"},
+    {id:4, name:"Dr Sameer Khan",  cat:"Eye",     spec:"Ophthalmologist",    rating:"4.8", exp:"14 yrs", fee:"₹600",  hospital:"Vision Plus",          dist:"3.1 km"},
+    {id:5, name:"Dr Sunita Rao",   cat:"Brain",   spec:"Neurologist",        rating:"4.9", exp:"18 yrs", fee:"₹1000", hospital:"NeuroCare",            dist:"4.2 km"},
+    {id:6, name:"Dr Kavya Mehta",  cat:"Skin",    spec:"Dermatologist",      rating:"4.8", exp:"11 yrs", fee:"₹700",  hospital:"SkinGlow Clinic",      dist:"2.7 km"},
+    {id:7, name:"Dr Arjun Patel",  cat:"Bone",    spec:"Orthopedic",         rating:"4.7", exp:"13 yrs", fee:"₹750",  hospital:"BoneFit Center",       dist:"3.5 km"},
+    {id:8, name:"Dr Neha Kapoor",  cat:"Stomach", spec:"Gastroenterologist", rating:"4.6", exp:"9 yrs",  fee:"₹650",  hospital:"GutCare Hospital",     dist:"2.1 km"},
+    {id:9, name:"Dr Ravi Menon",   cat:"Heart",   spec:"Cardiologist",       rating:"4.6", exp:"11 yrs", fee:"₹750",  hospital:"HeartBeat Center",     dist:"3.8 km"},
+    {id:10,name:"Dr Anjali Das",   cat:"Skin",    spec:"Dermatologist",      rating:"4.7", exp:"8 yrs",  fee:"₹600",  hospital:"DermaCare Clinic",     dist:"1.5 km"},
 ];
 
 const HOSPITALS = [
@@ -1005,7 +1036,12 @@ function switchTab(mode) {
     isLoginMode = (mode === 'login');
     document.getElementById('tab-login').classList.toggle('active', isLoginMode);
     document.getElementById('tab-signup').classList.toggle('active', !isLoginMode);
+    
+    // Toggle the new signup extra fields
     document.getElementById('signup-name-wrap').style.display = isLoginMode ? 'none' : 'block';
+    document.getElementById('signup-age-wrap').style.display = isLoginMode ? 'none' : 'block';
+    document.getElementById('signup-gender-wrap').style.display = isLoginMode ? 'none' : 'block';
+    
     document.getElementById('auth-btn-label').textContent = isLoginMode ? 'Login' : 'Create Account';
     document.getElementById('auth-icon').className = isLoginMode ? 'fas fa-sign-in-alt mr-2' : 'fas fa-user-plus mr-2';
     document.getElementById('auth-error').style.display = 'none';
@@ -1025,6 +1061,9 @@ function handleAuth() {
     const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-pass').value.trim();
     const name = document.getElementById('reg-name').value.trim();
+    const age = document.getElementById('reg-age')?.value.trim();
+    const gender = document.getElementById('reg-gender')?.value;
+    
     document.getElementById('auth-error').style.display = 'none';
 
     if (!email)              { showError('Please enter your email or phone.'); return; }
@@ -1036,8 +1075,11 @@ function handleAuth() {
 
     if (!isLoginMode) {
         if (!name) { showError('Please enter your full name.'); return; }
+        if (!age) { showError('Please enter your age.'); return; }
+        if (!gender) { showError('Please select your gender.'); return; }
         if (users[email]) { showError('Account already exists. Please login.'); return; }
-        users[email] = { name, email, password, joined: new Date().toISOString() };
+        
+        users[email] = { name, email, password, age, gender, joined: new Date().toISOString() };
         localStorage.setItem('ml_users', JSON.stringify(users));
         currentUser = users[email];
     } else {
@@ -1079,9 +1121,16 @@ function logout() {
     localStorage.removeItem('ml_session'); currentUser = null;
     document.getElementById('app').style.display = 'none';
     document.getElementById('login-page').style.display = 'flex';
-    ['reg-email','reg-pass','reg-name'].forEach(id => document.getElementById(id).value = '');
+    
+    // Clear all auth inputs
+    ['reg-email','reg-pass','reg-name', 'reg-age', 'reg-gender'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.value = '';
+    });
+    
     document.getElementById('chat-box').innerHTML = '';
     chatState = { stage:'idle', collected:{} };
+    clearPendingRx();
     switchTab('login');
 }
 
@@ -1147,7 +1196,10 @@ function doctorCard(d) {
     </div>`;
 }
 
-function renderHomeDoctors() { document.getElementById('home-doctor-list').innerHTML = DOCTORS.map(doctorCard).join(''); }
+function renderHomeDoctors() { 
+    const listEl = document.getElementById('home-doctor-list');
+    if(listEl) listEl.innerHTML = DOCTORS.map(doctorCard).join(''); 
+}
 
 /* ════════════════ DOCTORS ════════════════ */
 function buildCatPills() {
@@ -1398,6 +1450,10 @@ function openCallModal(evt, id) {
 }
 
 /* ════════════════ DOCUMENT UPLOAD ════════════════ */
+let pendingRx = {
+    file: null, base64: null, dataUrl: null, textData: null, isImage: false, isPdf: false, isText: false
+};
+
 function triggerRxUpload() {
     document.getElementById('rx-file-inp').value = '';
     document.getElementById('rx-file-inp').click();
@@ -1406,11 +1462,13 @@ function triggerRxUpload() {
 function handleRxUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
-    if (file.size > 5*1024*1024) { aiMsg('⚠️ File is too large. Please upload under 5 MB.'); return; }
+    if (file.size > 5*1024*1024) { alert('⚠️ File is too large. Please upload under 5 MB.'); return; }
+    
     const isImage = file.type.startsWith('image/');
     const isPdf   = file.type === 'application/pdf';
     const isText  = file.type.startsWith('text/');
-    if (!isImage && !isPdf && !isText) { aiMsg('⚠️ Unsupported file type. Please upload an Image, PDF, or Text document.'); return; }
+    
+    if (!isImage && !isPdf && !isText) { alert('⚠️ Unsupported file type. Please upload an Image, PDF, or Text document.'); return; }
 
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -1418,52 +1476,61 @@ function handleRxUpload(event) {
         let base64 = null, textData = null;
         if (isImage || isPdf) { base64 = dataUrl.split(',')[1]; }
         else { textData = dataUrl; }
-        const box = document.getElementById('chat-box');
-        let previewHtml = '';
-        if (isImage) {
-            previewHtml = `<img src="${dataUrl}" class="rx-img-preview" alt="Uploaded Document">`;
-        } else {
-            let iconClass = isPdf ? 'fa-file-pdf text-red-400' : 'fa-file-alt text-blue-400';
-            previewHtml = `<div class="doc-preview-icon"><i class="fas ${iconClass} text-2xl"></i><span style="font-size:0.8rem;word-break:break-all;">${escHtml(file.name)}</span></div>`;
-        }
-        box.innerHTML += `
-            <div class="msg-wrapper" style="text-align:right;">
-                <div class="msg user-msg">
-                    <div style="font-size:0.85rem;margin-bottom:8px;"><i class="fas fa-file-medical mr-1"></i> Document uploaded — analyzing...</div>
-                    ${previewHtml}
-                </div>
-            </div>`;
-        box.scrollTop = box.scrollHeight;
-        analyzePrescription(base64, file.type, dataUrl, textData);
+
+        pendingRx = { file, base64, dataUrl, textData, isImage, isPdf, isText };
+
+        const pc = document.getElementById('file-preview-container');
+        pc.style.display = 'flex';
+        let icon = isImage ? `<img src="${dataUrl}" style="height:40px; border-radius:4px; object-fit:cover;">` :
+                   isPdf ? `<i class="fas fa-file-pdf text-red-400 text-2xl"></i>` :
+                   `<i class="fas fa-file-alt text-blue-400 text-2xl"></i>`;
+        
+        pc.innerHTML = `
+            ${icon}
+            <div style="flex:1; font-size:0.85rem; color:#cbd5e1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                Attached: <b>${escHtml(file.name)}</b><br>
+                <span class="text-xs text-slate-400">Press send to analyze</span>
+            </div>
+            <button onclick="clearPendingRx()" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:1.2rem; padding:4px;"><i class="fas fa-times"></i></button>
+        `;
     };
     if (isText) reader.readAsText(file);
     else reader.readAsDataURL(file);
 }
 
+function clearPendingRx() {
+    pendingRx = { file: null, base64: null, dataUrl: null, textData: null, isImage: false, isPdf: false, isText: false };
+    document.getElementById('file-preview-container').style.display = 'none';
+    document.getElementById('rx-file-inp').value = '';
+}
+
 /* ════════════════ PRESCRIPTION ANALYSIS ════════════════ */
-async function analyzePrescription(base64, mimeType, dataUrl, textData) {
-    showTyping();
-    setTimeout(() => {
-        removeTyping();
-        const isPdf = mimeType === 'application/pdf';
-        const isImg = mimeType.startsWith('image/');
-        const patientName = currentUser ? currentUser.name : "Patient";
-        const mockRx = {
-          "patientInfo": { "name": patientName, "age": currentUser?.dob ? "Adult" : "Not specified", "date": new Date().toLocaleDateString('en-US') },
-          "doctor": { "name": isPdf ? "City Diagnostics Lab" : "Consulting Physician", "registration": "Verified", "hospital": isPdf ? "Pathology Dept" : "General Hospital" },
-          "diagnosis": isPdf ? "Routine Blood Panel (CBC)" : "Clinical Assessment",
-          "medicines": isImg ? [
-            { "name": "Paracetamol", "dosage": "650mg", "frequency": "As needed (SOS)", "duration": "3 days", "purpose": "Fever/Pain Relief", "sideEffects": ["Nausea"], "precautions": "Take after meals", "category": "Antipyretic" },
-            { "name": "Vitamin C", "dosage": "500mg", "frequency": "Once daily", "duration": "10 days", "purpose": "Immunity booster", "sideEffects": [], "precautions": "None", "category": "Supplement" }
-          ] : [],
-          "instructions": isPdf ? ["Maintain normal hydration", "Levels are within normal reference range", "No immediate dietary restrictions"] : ["Get plenty of rest", "Drink warm fluids", "Avoid cold items"],
-          "followUp": isPdf ? "Annual general checkup" : "After 3 days if symptoms persist",
-          "specialistRecommended": "General Physician",
-          "urgencyLevel": "LOW",
-          "summary": isPdf ? "Document analyzed successfully. The uploaded PDF appears to be a laboratory test report. Key parameters including Hemoglobin, Leukocytes, and Platelets are within normal biological ranges. No critical flags detected." : "Image analyzed successfully. This appears to be a standard clinical prescription. Please ensure you follow the dosage timings and complete the prescribed course."
-        };
-        renderRxAnalysis(mockRx);
-    }, 2500);
+async function analyzePrescription(base64, mimeType, dataUrl, textData, userText) {
+    const isPdf = mimeType === 'application/pdf';
+    const isImg = mimeType.startsWith('image/');
+    const isText = mimeType.startsWith('text/');
+    const patientName = currentUser ? currentUser.name : "Patient";
+
+    let docTypeStr = isPdf ? "PDF Lab Report" : isImg ? "Image Prescription" : "Text Clinical Notes";
+
+    const mockRx = {
+      "patientInfo": { "name": patientName, "age": currentUser?.dob ? "Adult" : "Not specified", "date": new Date().toLocaleDateString('en-US') },
+      "doctor": { "name": isPdf ? "City Diagnostics Lab" : "Dr. S. K. Consultant", "registration": "Reg: MED-8942", "hospital": isPdf ? "Pathology Dept" : "General Hospital" },
+      "diagnosis": isPdf ? "Routine Blood Panel (CBC)" : isImg ? "Acute Pharyngitis / Viral Fever" : "General Clinical Assessment",
+      "medicines": isImg ? [
+        { "name": "Azithromycin", "dosage": "500mg", "frequency": "Once daily (OD)", "duration": "5 days", "purpose": "Antibiotic for bacterial infection", "sideEffects": ["Stomach upset", "Nausea"], "precautions": "Take 1 hour before or 2 hours after meals", "category": "Antibiotic" },
+        { "name": "Paracetamol", "dosage": "650mg", "frequency": "As needed (SOS)", "duration": "3 days", "purpose": "Fever/Pain Relief", "sideEffects": [], "precautions": "Do not exceed 4 tablets in 24 hours", "category": "Antipyretic" },
+        { "name": "Vitamin C", "dosage": "500mg", "frequency": "Once daily", "duration": "10 days", "purpose": "Immunity booster", "sideEffects": [], "precautions": "None", "category": "Supplement" }
+      ] : [],
+      "instructions": isPdf ? ["Maintain normal hydration", "Fasting required for next glucose test", "WBC count is slightly elevated indicating mild infection"] : isImg ? ["Get plenty of rest", "Drink warm fluids", "Gargle with warm salt water 3 times a day"] : ["Follow prescribed diet", "Monitor symptoms daily"],
+      "followUp": isPdf ? "Consult General Physician with these reports" : "After 5 days if symptoms persist",
+      "specialistRecommended": isPdf ? "General Physician" : "ENT Specialist",
+      "urgencyLevel": isPdf ? "LOW" : "MODERATE",
+      "summary": isPdf ? `Analyzed ${docTypeStr}. The document appears to be a laboratory test report. Key parameters: Hemoglobin is normal (14.2 g/dL). Leukocytes (WBC) show slight elevation (11,500/mcL), which may indicate a mild active infection. No critical flags detected. Please consult your referring physician.` :
+                 isImg ? `Analyzed ${docTypeStr}. This is a standard prescription containing antibiotics and antipyretics. Ensure you complete the full 5-day antibiotic course even if you feel better. Hydration is highly recommended.` :
+                 `Analyzed ${docTypeStr}. The text notes suggest a routine assessment with no severe critical markers. Monitor your condition as advised.`
+    };
+    renderRxAnalysis(mockRx);
 }
 
 function renderRxAnalysis(rx) {
@@ -1561,7 +1628,7 @@ function detectCatFromSpec(spec) {
     if (s.includes('gastro')||s.includes('stomach')) return 'Stomach';
     if (s.includes('ortho')||s.includes('bone'))     return 'Bone';
     if (s.includes('ophthal')||s.includes('eye'))    return 'Eye';
-    if (s.includes('dent')||s.includes('oral'))      return 'Dental';
+    if (s.includes('ent')||s.includes('oral')||s.includes('dent'))       return 'Dental';
     if (s.includes('general')||s.includes('physician')) return 'General';
     return null;
 }
@@ -1571,7 +1638,9 @@ let chatState = { stage:'idle', collected:{} };
 
 function resetChat() {
     document.getElementById('chat-box').innerHTML = '';
-    chatState = { stage:'idle', collected:{} }; initChat();
+    chatState = { stage:'idle', collected:{} };
+    clearPendingRx();
+    initChat();
 }
 
 function initChat() {
@@ -1579,7 +1648,7 @@ function initChat() {
     chatState.stage = 'greeting';
     aiMsg(`👋 Hi <b>${name}</b>! I'm <b>MediBot</b>, your personal health assistant.<br><br>
 I'll ask a few questions to understand your condition and connect you with the right doctor.<br><br>
-💬 <b>Describe your symptoms below</b>, or tap the <span style="background:rgba(139,92,246,0.3);border-radius:6px;padding:2px 7px;color:#a78bfa;font-size:0.85rem;"><i class="fas fa-paperclip"></i></span> button to <b>upload a document (Image/PDF/Text)</b> for instant AI analysis! 🔬`);
+💬 <b>Describe your symptoms below</b>, or tap the <span style="background:rgba(139,92,246,0.3);border-radius:6px;padding:2px 7px;color:#a78bfa;font-size:0.85rem;"><i class="fas fa-paperclip"></i></span> button to <b>attach a document (Image/PDF/Text)</b> for instant AI analysis! 🔬`);
 }
 
 function sendMessage(text) {
@@ -1591,15 +1660,40 @@ function sendMessage(text) {
 
 function sendMsg() {
     const inp=document.getElementById('chat-inp'), text=inp.value.trim();
-    if (!text) return;
-    userMsg(text); inp.value='';
+    if (!text && !pendingRx.file) return; 
+
+    userMsg(text, pendingRx);
+    inp.value='';
+
+    const currentPending = pendingRx.file ? {...pendingRx} : null;
+    clearPendingRx();
+
     showTyping();
-    setTimeout(()=>{ removeTyping(); processChat(text); }, 1000+Math.random()*600);
+    setTimeout(() => { 
+        removeTyping(); 
+        if (currentPending) {
+            analyzePrescription(currentPending.base64, currentPending.file.type, currentPending.dataUrl, currentPending.textData, text);
+        } else {
+            processChat(text); 
+        }
+    }, 1000+Math.random()*600);
 }
 
-function userMsg(text) {
+function userMsg(text, fileData = null) {
     const box=document.getElementById('chat-box');
-    box.innerHTML+=`<div class="msg-wrapper" style="text-align:right;"><div class="msg user-msg">${escHtml(text)}</div></div>`;
+    let fileHtml = '';
+    
+    if (fileData && fileData.file) {
+        if (fileData.isImage) {
+            fileHtml = `<img src="${fileData.dataUrl}" class="rx-img-preview" alt="Uploaded Document" style="margin-bottom:8px; display:block;">`;
+        } else {
+            let iconClass = fileData.isPdf ? 'fa-file-pdf text-red-400' : 'fa-file-alt text-blue-400';
+            fileHtml = `<div class="doc-preview-icon" style="margin-bottom:8px; display:inline-flex;"><i class="fas ${iconClass} text-2xl"></i><span style="font-size:0.8rem;word-break:break-all;">${escHtml(fileData.file.name)}</span></div><br>`;
+        }
+    }
+    
+    let textHtml = text ? `<div>${escHtml(text)}</div>` : '';
+    box.innerHTML+=`<div class="msg-wrapper" style="text-align:right;"><div class="msg user-msg">${fileHtml}${textHtml}</div></div>`;
     box.scrollTop=box.scrollHeight;
 }
 
@@ -1637,7 +1731,7 @@ const L = {
         emergency_call:`🚨 <b>EMERGENCY: Please call 108 or go to the nearest hospital immediately!</b>`,
         followup_book: `Head to the <b>Doctors</b> tab or click any doctor card above to book! 📅`,
         followup_hosp: null,
-        followup_upload:`Tap the <b><i class="fas fa-paperclip" style="color:#a78bfa;"></i> purple button</b> to upload a document for AI analysis! 📸`,
+        followup_upload:`Tap the <b><i class="fas fa-paperclip" style="color:#a78bfa;"></i> purple button</b> to attach a document for AI analysis! 📸`,
         followup_thx:  `You're welcome! 😊 Take care. 💙`,
         followup_bye:  `Take care! 👋 Wishing you a speedy recovery.`,
         followup_else: `I'm here if you have more questions!<br>• Ask about <b>hospitals</b> nearby<br>• <b>Book an appointment</b><br>• <b>Upload a document</b><br>• Click <b>Reset</b> to start a new check`,
@@ -1786,7 +1880,7 @@ function handleFollowUp(t, originalText) {
         aiMsg(ls.followup_book);
     else if (t.includes('hospital')||t.includes('emergency')||t.includes('अस्पताल')||t.includes('হাসপাতাল'))
         showHospitals();
-    else if (t.includes('prescription')||t.includes('rx')||t.includes('upload')||t.includes('document')||t.includes('दস्तावेज')||t.includes('ডকুমেন্ট'))
+    else if (t.includes('prescription')||t.includes('rx')||t.includes('upload')||t.includes('document')||t.includes('दस्तावेज')||t.includes('ডকুমেন্ট')||t.includes('attach'))
         aiMsg(ls.followup_upload);
     else if (t.includes('thank')||t.includes('धन्यवाद')||t.includes('शुक्रिया')||t.includes('ধন্যবাদ'))
         aiMsg(ls.followup_thx);
