@@ -1179,16 +1179,14 @@ function nav(page) {
     if (page==='dashboard')    renderDashboard();
 }
 
-/* ════════════════ HELPERS ════════════════ */
+/* ════════════════ HELPERS ════════════════ */ 
 function initials(name) { return name.replace('Dr ','').split(' ').map(n=>n[0]).join('').toUpperCase(); }
 function escHtml(t) { if (typeof t !== 'string') t = String(t||''); return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function doctorCard(d) {
     return `<div class="doctor-card" onclick="openBooking(${d.id})">
         <div class="flex items-center justify-between gap-2 mb-3">
-            <button class="video-call-btn" onclick="event.stopPropagation(); openCallModal(event, ${d.id})">
-                <i class="fas fa-video"></i> Video Call
-            </button>
+            ${getCallButtonHtml(d)}
         </div>
         <div class="flex items-center gap-3 mb-3">
             <div class="doc-avatar">${initials(d.name)}</div>
@@ -1233,6 +1231,86 @@ function renderFilteredDocs(cat) {
     document.getElementById('filtered-docs').innerHTML = list.length
         ? list.map(doctorCard).join('')
         : '<div class="text-slate-400 col-span-full text-center py-10">No doctors found in this category.</div>';
+} 
+/* ════════════════ VIDEO CALL PERMISSION LOGIC ════════════════ */
+// Track permissions in local storage so it persists if the user refreshes
+let callPermissions = JSON.parse(localStorage.getItem('ml_call_perms') || '{}');
+
+function saveCallPermissions() {
+    localStorage.setItem('ml_call_perms', JSON.stringify(callPermissions));
+}
+
+function refreshDoctorLists() {
+    renderHomeDoctors();
+    const activePill = document.querySelector('.cat-pill.active');
+    if (activePill) {
+        const cat = activePill.textContent.trim().split(' ')[1] || 'All';
+        renderFilteredDocs(cat);
+    }
+}
+
+function getCallButtonHtml(d) {
+    const state = callPermissions[d.id] || 'none';
+    
+    if (state === 'none') {
+        return `<button class="video-call-btn" onclick="event.stopPropagation(); requestCall(event, ${d.id}, '${d.fee}')">
+                    <i class="fas fa-hand-paper"></i> Ask Permission
+                </button>`;
+    } else if (state === 'pending') {
+        return `<button class="video-call-btn" style="opacity:0.7; cursor:not-allowed;" disabled onclick="event.stopPropagation();">
+                    <i class="fas fa-spinner fa-spin"></i> Waiting...
+                </button>`;
+    } else if (state === 'approved') {
+        return `<button class="video-call-btn" style="background:rgba(16,185,129,0.2); border-color:#34d399; color:#34d399;" onclick="event.stopPropagation(); processPayment(event, ${d.id}, '${d.fee}')">
+                    <i class="fas fa-credit-card"></i> Pay ${d.fee}
+                </button>`;
+    } else if (state === 'paid') {
+        return `<button class="video-call-btn" style="background:rgba(59,130,246,0.3); border-color:#60a5fa; color:#fff;" onclick="event.stopPropagation(); openCallModal(event, ${d.id})">
+                    <i class="fas fa-video"></i> Connect Call
+                </button>`;
+    } else if (state === 'denied') {
+        return `<button class="video-call-btn" style="background:rgba(239,68,68,0.2); border-color:#f87171; color:#f87171;" disabled onclick="event.stopPropagation();">
+                    <i class="fas fa-ban"></i> Denied
+                </button>`;
+    }
+}
+
+function requestCall(evt, docId, fee) {
+    evt.preventDefault(); evt.stopPropagation();
+    
+    // Set state to pending and update UI
+    callPermissions[docId] = 'pending';
+    saveCallPermissions();
+    refreshDoctorLists();
+
+    // Simulate Doctor reviewing the request (takes 3 seconds)
+    setTimeout(() => {
+        // Simulated logic: 80% chance doctor approves, 20% chance they deny
+        const isApproved = Math.random() > 0.2; 
+        
+        callPermissions[docId] = isApproved ? 'approved' : 'denied';
+        saveCallPermissions();
+        refreshDoctorLists();
+
+        if(isApproved) {
+            alert(`Doctor granted permission! Please pay the consultation fee of ${fee} to connect.`);
+        } else {
+            alert(`Permission Denied: The doctor is currently busy or unavailable.`);
+        }
+    }, 3000);
+}
+
+function processPayment(evt, docId, fee) {
+    evt.preventDefault(); evt.stopPropagation();
+    
+    // Simulate a payment gateway popup
+    const confirmPay = confirm(`Proceed to pay ${fee} for the video consultation?`);
+    if (confirmPay) {
+        callPermissions[docId] = 'paid';
+        saveCallPermissions();
+        alert('Payment successful! You can now connect with the doctor.');
+        refreshDoctorLists();
+    }
 }
 
 /* ════════════════ APPOINTMENTS ════════════════ */
@@ -1979,9 +2057,8 @@ function showRecommendedDocs(category) {
             <div class="doc-avatar" style="width:44px;height:44px;font-size:0.9rem;flex-shrink:0;">${initials(d.name)}</div>
             <div style="flex:1;min-width:0;">
                 <div style="margin-bottom:4px;">
-                    <button class="video-call-btn" style="padding:3px 8px;font-size:0.7rem;border-radius:6px;" onclick="event.stopPropagation(); openCallModal(event, ${d.id})">
-                        <i class="fas fa-video"></i> Video Call
-                    </button>
+                    , ${d.id})">
+                        <i${getCallButtonHtml(d).replace('class="video-call-btn"', 'class="video-call-btn" style="padding:3px 8px;font-size:0.7rem;border-radius:6px;"')}
                 </div>
                 <div class="font-semibold text-sm">${d.name}</div>
                 <div class="text-xs text-slate-400">${d.spec} · ${d.hospital}</div>
