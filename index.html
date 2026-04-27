@@ -9,30 +9,55 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 * { font-family: 'Inter', sans-serif; }
-body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; }
+:root {
+    --primary-blue: #2F80ED;
+    --accent-pink: #EC407A;
+    --soft-pink: #F8BBD0;
+    --soft-pink-opaque: rgba(248,187,208,0.18);
+    --accent-pink-opaque: rgba(236,64,122,0.2);
+    --accent-pink-strong: rgba(236,64,122,0.4);
+    --text-soft: #E8D8E8;
+    --bg-dark: #0a0e27;
+    --bg-mid: #151a45;
+}
+body { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g'%3E%3Cstop offset='0%25' stop-color='%23f8bcd0'/%3E%3Cstop offset='100%25' stop-color='%23ec407a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M60 12 C78 12 95 36 82 64 C74 82 60 108 60 108 C60 108 46 82 38 64 C25 36 42 12 60 12 Z' fill='url(%23g)' opacity='0.16'/%3E%3Cpath d='M60 26 C72 26 84 40 74 58 C68 70 60 92 60 92 C60 92 52 70 46 58 C36 40 48 26 60 26 Z' fill='%23fff' opacity='0.14'/%3E%3C/svg%3E"), radial-gradient(circle at top left, rgba(248,187,208,0.08), transparent 22%), linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-mid) 45%, var(--bg-dark) 100%); background-repeat: no-repeat, no-repeat, no-repeat; background-position: 52% 40%, top left, center; background-size: 420px 420px, auto, auto; color: #fff; overflow-x: hidden; min-height: 100vh; }
 
 .bg-animation {
     position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1;
-    background: linear-gradient(135deg, #0a0e27 0%, #1a1f4e 50%, #0a0e27 100%);
+    background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-mid) 50%, var(--bg-dark) 100%);
     overflow: hidden;
 }
 .bg-animation::before {
     content:''; position:absolute; width:200%; height:200%; top:-50%; left:-50%;
-    background: radial-gradient(circle at 20% 30%, rgba(59,130,246,0.3) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(139,92,246,0.3) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(236,72,153,0.2) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 30%, rgba(47,128,237,0.3) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(236,64,122,0.25) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(248,187,208,0.18) 0%, transparent 50%);
     animation: rotate 20s linear infinite;
+}
+.bg-animation::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 C80 10 104 34 92 64 C84 84 60 110 60 110 C60 110 36 84 28 64 C16 34 40 10 60 10 Z' fill='%23f8bcd0'/%3E%3Cpath d='M60 22 C72 22 88 40 78 62 C72 76 60 94 60 94 C60 94 48 76 42 62 C32 40 48 22 60 22 Z' fill='%23ec407a' opacity='0.9'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 C80 10 104 34 92 64 C84 84 60 110 60 110 C60 110 36 84 28 64 C16 34 40 10 60 10 Z' fill='%23f8bcd0'/%3E%3Cpath d='M60 22 C72 22 88 40 78 62 C72 76 60 94 60 94 C60 94 48 76 42 62 C32 40 48 22 60 22 Z' fill='%23ec407a' opacity='0.9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat;
+    background-position: 10% 12%, 90% 88%;
+    background-size: 72px 72px, 72px 72px;
+    opacity: 0.14;
+    pointer-events: none;
+    filter: blur(0.2px);
 }
 @keyframes rotate { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
 
-.particle { position:absolute; border-radius:50%; background:rgba(59,130,246,0.5); pointer-events:none; animation:float 15s infinite ease-in-out; }
+.particle { position:absolute; border-radius:50%; background:rgba(236,64,122,0.45); pointer-events:none; animation:float 15s infinite ease-in-out; }
 @keyframes float {
     0%,100%{transform:translate(0,0) scale(1);opacity:0.3}
     25%{transform:translate(100px,-100px) scale(1.2);opacity:0.8}
     50%{transform:translate(-80px,80px) scale(0.8);opacity:0.5}
     75%{transform:translate(80px,100px) scale(1.1);opacity:0.7}
 }
-.dna-line { position:absolute; width:2px; background:linear-gradient(180deg,transparent,rgba(59,130,246,0.6),transparent); animation:pulse-line 3s infinite ease-in-out; }
+.dna-line { position:absolute; width:2px; background:linear-gradient(180deg,transparent,rgba(47,128,237,0.55),transparent); animation:pulse-line 3s infinite ease-in-out; }
 @keyframes pulse-line { 0%,100%{opacity:0.3;height:100px} 50%{opacity:1;height:200px} }
 
 .glass {
@@ -43,26 +68,55 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 
 /* LOGIN */
 .login-page { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; position:relative; z-index:1; }
-.login-box { max-width:440px; width:100%; padding:40px; animation:fadeUp 0.8s ease; }
+.login-box { max-width:440px; width:100%; padding:40px; animation:fadeUp 0.8s ease; position:relative; }
+.login-box::before,
+.login-box::after {
+    content: '';
+    position: absolute;
+    width: 104px;
+    height: 216px;
+    background: linear-gradient(180deg, rgba(248,187,208,0.58), rgba(236,64,122,0.18));
+    clip-path: polygon(50% 0%, 100% 18%, 72% 100%, 50% 78%, 28% 100%, 0% 18%);
+    box-shadow: 0 0 32px rgba(236,64,122,0.18);
+    opacity: 0.78;
+    pointer-events: none;
+    z-index: -1;
+    animation: ribbonFloat 8s ease-in-out infinite alternate;
+}
+.login-box::before { left: -50px; top: 10%; transform: rotate(-10deg); }
+.login-box::after { right: -50px; top: 10%; transform: rotate(10deg); }
+@keyframes ribbonFloat { from { transform: translateY(0) rotate(-10deg); } to { transform: translateY(-6px) rotate(-8deg); } }
+@media (max-width: 720px) {
+    .login-box::before,
+    .login-box::after {
+        width: 100px;
+        height: 90px;
+        top: -56px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) rotate(0deg);
+    }
+    .login-box::after { top: auto; bottom: -56px; }
+}
 @keyframes fadeUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
 
-.logo { background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; font-weight:800; font-size:1.8rem; letter-spacing:-0.5px; }
+.logo { background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink), var(--soft-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; font-weight:800; font-size:1.8rem; letter-spacing:-0.5px; }
 .tab-toggle { display:flex; background:rgba(255,255,255,0.05); border-radius:12px; padding:4px; margin-bottom:24px; }
-.tab-toggle button { flex:1; padding:10px; border-radius:8px; color:#94a3b8; font-weight:500; border:none; background:transparent; cursor:pointer; transition:all 0.3s; }
-.tab-toggle button.active { background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:white; }
+.tab-toggle button { flex:1; padding:10px; border-radius:8px; color:var(--text-soft); font-weight:500; border:none; background:transparent; cursor:pointer; transition:all 0.3s; }
+.tab-toggle button.active { background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); color:white; }
 
 .inp-wrap { position:relative; margin-bottom:14px; }
-.inp-wrap i { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#64748b; pointer-events:none; }
+.inp-wrap i { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#94a3b8; pointer-events:none; }
 .inp-wrap .toggle-pass { left:auto; right:16px; cursor:pointer; pointer-events:all; }
 
 .login-input { width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:white; padding:14px 16px 14px 44px; border-radius:12px; outline:none; transition:all 0.3s; }
-.login-input:focus { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.2); }
-.login-input::placeholder { color:#64748b; }
+.login-input:focus { border-color:var(--accent-pink); box-shadow:0 0 0 3px rgba(236,64,122,0.2); }
+.login-input::placeholder { color:#94a3b8; }
 .profile-input { width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:white; padding:12px 16px; border-radius:12px; outline:none; transition:all 0.3s; }
-.profile-input:focus { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.2); }
+.profile-input:focus { border-color:var(--accent-pink); box-shadow:0 0 0 3px rgba(236,64,122,0.2); }
 
-.login-btn { width:100%; background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:white; padding:14px; border-radius:12px; font-weight:600; border:none; cursor:pointer; transition:all 0.3s; margin-top:4px; }
-.login-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(59,130,246,0.4); }
+.login-btn { width:100%; background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); color:white; padding:14px; border-radius:12px; font-weight:600; border:none; cursor:pointer; transition:all 0.3s; margin-top:4px; }
+.login-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(236,64,122,0.4); }
 .err-msg { color:#f87171; font-size:0.83rem; margin-bottom:8px; padding:8px 12px; background:rgba(239,68,68,0.1); border-radius:8px; border:1px solid rgba(239,68,68,0.2); }
 
 /* APP SHELL */
@@ -73,136 +127,136 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 @keyframes slideIn { from{transform:translateX(-50px);opacity:0} to{transform:translateX(0);opacity:1} }
 
 .nav-btn { width:100%; padding:12px 16px; border-radius:12px; text-align:left; transition:all 0.3s ease; color:#cbd5e1; font-weight:500; display:flex; align-items:center; gap:12px; margin-bottom:8px; cursor:pointer; border:1px solid transparent; background:transparent; }
-.nav-btn:hover,.nav-btn.active { background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.2)); color:white; border-color:rgba(59,130,246,0.3); transform:translateX(4px); }
-.profile-card { padding:14px; background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15)); border:1px solid rgba(59,130,246,0.2); border-radius:14px; margin-top:16px; cursor:pointer; transition:all 0.3s; }
-.profile-card:hover { transform:translateY(-2px); border-color:rgba(59,130,246,0.5); }
-.profile-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#ec4899,#8b5cf6); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; }
+.nav-btn:hover,.nav-btn.active { background:linear-gradient(135deg,rgba(47,128,237,0.18),rgba(236,64,122,0.18)); color:white; border-color:rgba(236,64,122,0.22); transform:translateX(4px); }
+.profile-card { padding:14px; background:linear-gradient(135deg,rgba(248,187,208,0.08),rgba(236,64,122,0.08)); border:1px solid rgba(248,187,208,0.15); border-radius:14px; margin-top:16px; cursor:pointer; transition:all 0.3s; }
+.profile-card:hover { transform:translateY(-2px); border-color:rgba(236,64,122,0.35); }
+.profile-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, var(--accent-pink), var(--primary-blue)); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; }
 
 /* MAIN */
 .main { flex:1; padding:30px; animation:fadeUp 0.8s ease; min-width:0; }
-.page-title { font-size:2rem; font-weight:700; margin-bottom:8px; background:linear-gradient(135deg,#fff,#94a3b8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.page-subtitle { color:#94a3b8; margin-bottom:24px; }
+.page-title { font-size:2rem; font-weight:700; margin-bottom:8px; background:linear-gradient(135deg, var(--primary-blue), var(--soft-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.page-subtitle { color:var(--soft-pink); margin-bottom:24px; }
 
 /* DOCTOR CARDS */
 .doctor-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
 .doctor-card { background:rgba(255,255,255,0.05); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.1); padding:20px; border-radius:16px; cursor:pointer; transition:all 0.4s cubic-bezier(0.4,0,0.2,1); position:relative; overflow:hidden; }
-.doctor-card::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(59,130,246,0.1),transparent); transition:left 0.6s; }
+.doctor-card::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(236,64,122,0.12),transparent); transition:left 0.6s; }
 .doctor-card:hover::before { left:100%; }
-.doctor-card:hover { transform:translateY(-6px); border-color:rgba(59,130,246,0.5); box-shadow:0 12px 40px rgba(59,130,246,0.2); }
+.doctor-card:hover { transform:translateY(-6px); border-color:rgba(236,64,122,0.5); box-shadow:0 12px 40px rgba(236,64,122,0.18); }
 
 .video-call-btn {
     display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px;
-    border:1px solid rgba(96,165,250,0.25); background:rgba(59,130,246,0.12);
-    color:#bfdbfe; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.3s ease;
+    border:1px solid rgba(236,64,122,0.25); background:rgba(236,64,122,0.1);
+    color:#fdeef6; font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.3s ease;
 }
-.video-call-btn:hover { background:rgba(59,130,246,0.18); transform:translateY(-1px); }
+.video-call-btn:hover { background:rgba(236,64,122,0.18); transform:translateY(-1px); }
 .video-card {
     background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); padding:14px; border-radius:18px; min-height:220px; display:flex; flex-direction:column; gap:10px;
 }
 .video-label { color:#cbd5e1; font-size:0.9rem; }
 
-.doc-avatar { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,#3b82f6,#8b5cf6); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.2rem; flex-shrink:0; }
-.badge { display:inline-block; padding:4px 10px; background:rgba(59,130,246,0.2); color:#60a5fa; border-radius:20px; font-size:0.75rem; font-weight:500; margin-top:8px; }
+.doc-avatar { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.2rem; flex-shrink:0; }
+.badge { display:inline-block; padding:4px 10px; background:rgba(248,187,208,0.18); color:var(--accent-pink); border-radius:20px; font-size:0.75rem; font-weight:500; margin-top:8px; }
 
 /* CATEGORIES */
 .cat-pills { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:24px; }
 .cat-pill { padding:8px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.3s; color:#cbd5e1; }
-.cat-pill:hover,.cat-pill.active { background:linear-gradient(135deg,#3b82f6,#8b5cf6); border-color:transparent; color:white; transform:translateY(-2px); }
+.cat-pill:hover,.cat-pill.active { background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); border-color:transparent; color:white; transform:translateY(-2px); }
 
 /* APPOINTMENTS */
 .appt-card { padding:20px; border-radius:16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); margin-bottom:12px; transition:all 0.3s; display:flex; align-items:center; gap:16px; }
-.appt-card:hover { border-color:rgba(59,130,246,0.4); transform:translateX(4px); }
-.status-badge { padding:4px 10px; background:rgba(16,185,129,0.2); color:#34d399; border-radius:20px; font-size:0.75rem; font-weight:600; white-space:nowrap; }
-.empty-state { text-align:center; padding:60px 20px; color:#64748b; }
+.appt-card:hover { border-color:rgba(236,64,122,0.4); transform:translateX(4px); }
+.status-badge { padding:4px 10px; background:rgba(236,64,122,0.15); color:var(--accent-pink); border-radius:20px; font-size:0.75rem; font-weight:600; white-space:nowrap; }
+.empty-state { text-align:center; padding:60px 20px; color:#94a3b8; }
 .empty-state i { font-size:4rem; margin-bottom:16px; opacity:0.3; display:block; }
 
 /* CHAT */
 .chat-container { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:20px; overflow:hidden; display: flex; flex-direction: column; }
-.chat-header { padding:16px 20px; background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.2)); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:12px; }
-.ai-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#3b82f6,#8b5cf6); display:flex; align-items:center; justify-content:center; position:relative; }
-.ai-avatar::after { content:'absolute'; width:10px; height:10px; background:#10b981; border:2px solid #0a0e27; border-radius:50%; bottom:0; right:0; animation:pulse 2s infinite; }
+.chat-header { padding:16px 20px; background:linear-gradient(135deg,rgba(47,128,237,0.18),rgba(236,64,122,0.12)); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:12px; }
+.ai-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); display:flex; align-items:center; justify-content:center; position:relative; }
+.ai-avatar::after { content:'absolute'; width:10px; height:10px; background:var(--accent-pink); border:2px solid var(--bg-dark); border-radius:50%; bottom:0; right:0; animation:pulse 2s infinite; }
 @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.2);opacity:0.8} }
 
 .chat-box { height:55vh; overflow-y:auto; padding:20px; scroll-behavior:smooth; }
 .chat-box::-webkit-scrollbar { width:6px; }
-.chat-box::-webkit-scrollbar-thumb { background:rgba(59,130,246,0.5); border-radius:3px; }
+.chat-box::-webkit-scrollbar-thumb { background:rgba(236,64,122,0.45); border-radius:3px; }
 
 .msg-wrapper { margin-bottom:16px; animation:msgSlide 0.4s ease; }
 @keyframes msgSlide { from{transform:translateY(10px);opacity:0} to{transform:translateY(0);opacity:1} }
 .msg { padding:12px 16px; border-radius:16px; display:inline-block; max-width:80%; line-height:1.6; word-wrap:break-word; text-align: left; }
-.user-msg { background:linear-gradient(135deg,#3b82f6,#2563eb); color:white; border-bottom-right-radius:4px; }
+.user-msg { background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); color:white; border-bottom-right-radius:4px; }
 .ai-msg { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); color:#e2e8f0; border-bottom-left-radius:4px; }
 
 .typing { display:inline-flex; gap:4px; padding:14px 16px; background:rgba(255,255,255,0.08); border-radius:16px; }
-.typing span { width:8px; height:8px; background:#60a5fa; border-radius:50%; animation:bounce 1.4s infinite ease-in-out; }
+.typing span { width:8px; height:8px; background:var(--accent-pink); border-radius:50%; animation:bounce 1.4s infinite ease-in-out; }
 .typing span:nth-child(2){animation-delay:0.2s} .typing span:nth-child(3){animation-delay:0.4s}
 @keyframes bounce { 0%,60%,100%{transform:translateY(0);opacity:0.5} 30%{transform:translateY(-8px);opacity:1} }
 
 .chat-input-area { padding:16px 20px; background:rgba(0,0,0,0.2); display:flex; gap:10px; align-items:center; border-top:1px solid rgba(255,255,255,0.05); }
 .chat-input { flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:white; padding:12px 16px; border-radius:12px; outline:none; transition:all 0.3s; }
-.chat-input:focus { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.2); }
-.chat-input::placeholder { color:#64748b; }
-.send-btn { background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:white; padding:12px 20px; border-radius:12px; font-weight:600; transition:all 0.3s; border:none; cursor:pointer; }
-.send-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(59,130,246,0.4); }
+.chat-input:focus { border-color:var(--accent-pink); box-shadow:0 0 0 3px rgba(236,64,122,0.2); }
+.chat-input::placeholder { color:#94a3b8; }
+.send-btn { background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); color:white; padding:12px 20px; border-radius:12px; font-weight:600; transition:all 0.3s; border:none; cursor:pointer; }
+.send-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(236,64,122,0.4); }
 
 /* RX UPLOAD BUTTON & FILE PREVIEW */
-.rx-upload-btn { background:rgba(139,92,246,0.2); border:1px solid rgba(139,92,246,0.4); color:#a78bfa; padding:12px 14px; border-radius:12px; cursor:pointer; transition:all 0.3s; flex-shrink:0; font-size:1rem; line-height:1; }
-.rx-upload-btn:hover { background:rgba(139,92,246,0.35); border-color:#8b5cf6; color:white; transform:translateY(-2px); box-shadow:0 6px 20px rgba(139,92,246,0.3); }
+.rx-upload-btn { background:rgba(236,64,122,0.15); border:1px solid rgba(236,64,122,0.35); color:var(--accent-pink); padding:12px 14px; border-radius:12px; cursor:pointer; transition:all 0.3s; flex-shrink:0; font-size:1rem; line-height:1; }
+.rx-upload-btn:hover { background:rgba(236,64,122,0.3); border-color:var(--accent-pink); color:white; transform:translateY(-2px); box-shadow:0 6px 20px rgba(236,64,122,0.25); }
 
 #file-preview-container { display:none; padding:12px 20px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.1); align-items:center; gap:12px; }
 
 /* RX ANALYSIS STYLES */
-.rx-analysis-card { background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(59,130,246,0.12)); border:1px solid rgba(139,92,246,0.35); padding:18px; border-radius:14px; margin-top:10px; }
-.rx-section-title { font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#a78bfa; margin-bottom:8px; margin-top:14px; display:flex; align-items:center; gap:6px; }
+.rx-analysis-card { background:linear-gradient(135deg, rgba(236,64,122,0.12), rgba(47,128,237,0.12)); border:1px solid rgba(236,64,122,0.25); padding:18px; border-radius:14px; margin-top:10px; }
+.rx-section-title { font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-pink); margin-bottom:8px; margin-top:14px; display:flex; align-items:center; gap:6px; }
 .rx-section-title:first-child { margin-top:0; }
 .rx-med-row { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px; margin-bottom:8px; }
 .rx-med-name { font-weight:700; font-size:0.95rem; color:#e2e8f0; }
-.rx-med-dose { font-size:0.8rem; color:#60a5fa; margin-top:2px; }
+.rx-med-dose { font-size:0.8rem; color:var(--soft-pink); margin-top:2px; }
 .rx-med-detail { font-size:0.8rem; color:#94a3b8; margin-top:4px; line-height:1.5; }
 .rx-pill-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.72rem; font-weight:600; margin:2px; }
-.rx-tag-blue { background:rgba(59,130,246,0.2); color:#60a5fa; }
-.rx-tag-green { background:rgba(16,185,129,0.2); color:#34d399; }
+.rx-tag-blue { background:rgba(47,128,237,0.18); color:var(--primary-blue); }
+.rx-tag-green { background:rgba(236,64,122,0.15); color:var(--accent-pink); }
 .rx-tag-red { background:rgba(239,68,68,0.2); color:#f87171; }
-.rx-tag-amber { background:rgba(245,158,11,0.2); color:#fbbf24; }
-.rx-tag-purple { background:rgba(139,92,246,0.2); color:#a78bfa; }
-.rx-disclaimer { margin-top:14px; padding:10px 14px; background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); border-radius:10px; font-size:0.76rem; color:#fbbf24; line-height:1.5; }
-.rx-img-preview { max-width:220px; max-height:180px; border-radius:10px; margin-top:8px; border:1px solid rgba(139,92,246,0.4); object-fit:cover; }
-.doc-preview-icon { background:rgba(255,255,255,0.1); padding:12px; border-radius:10px; margin-top:8px; display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(139,92,246,0.4); }
+.rx-tag-amber { background:linear-gradient(135deg, rgba(47,128,237,0.16), rgba(236,64,122,0.16)); color:var(--primary-blue); }
+.rx-tag-purple { background:rgba(236,64,122,0.18); color:var(--accent-pink); }
+.rx-disclaimer { margin-top:14px; padding:10px 14px; background:rgba(236,64,122,0.12); border:1px solid rgba(236,64,122,0.25); border-radius:10px; font-size:0.76rem; color:var(--accent-pink); line-height:1.5; }
+.rx-img-preview { max-width:220px; max-height:180px; border-radius:10px; margin-top:8px; border:1px solid rgba(236,64,122,0.35); object-fit:cover; }
+.doc-preview-icon { background:rgba(255,255,255,0.1); padding:12px; border-radius:10px; margin-top:8px; display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(236,64,122,0.35); }
 
-.analysis-card { background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1)); border:1px solid rgba(59,130,246,0.3); padding:16px; border-radius:12px; margin-top:10px; }
+.analysis-card { background:linear-gradient(135deg, rgba(47,128,237,0.1), rgba(236,64,122,0.1)); border:1px solid rgba(236,64,122,0.3); padding:16px; border-radius:12px; margin-top:10px; }
 .severity-bar { height:6px; border-radius:3px; background:rgba(255,255,255,0.1); overflow:hidden; margin:8px 0; }
 .severity-fill { height:100%; border-radius:3px; animation:fillBar 1.2s ease forwards; }
 @keyframes fillBar { from{width:0} }
-.routing-info { background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); padding:12px; border-radius:10px; margin-top:8px; }
+.routing-info { background:rgba(236,64,122,0.08); border:1px solid rgba(236,64,122,0.15); padding:12px; border-radius:10px; margin-top:8px; }
 
 .rec-doc-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:14px; border-radius:12px; margin-top:8px; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:12px; }
-.rec-doc-card:hover { background:rgba(59,130,246,0.15); transform:translateX(4px); border-color:rgba(59,130,246,0.5); }
+.rec-doc-card:hover { background:rgba(248,187,208,0.14); transform:translateX(4px); border-color:rgba(236,64,122,0.45); }
 
 /* MODAL */
 .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter:blur(10px); display:none; align-items:center; justify-content:center; z-index:200; }
 .modal-overlay.open { display:flex; }
-.modal { background:linear-gradient(135deg,#1a1f4e,#0a0e27); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:30px; max-width:550px; width:90%; max-height:90vh; overflow-y:auto; animation:modalPop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+.modal { background:linear-gradient(135deg, var(--bg-mid), var(--bg-dark)); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:30px; max-width:550px; width:90%; max-height:90vh; overflow-y:auto; animation:modalPop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
 @keyframes modalPop { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
 
 .time-slot { padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; text-align:center; cursor:pointer; transition:all 0.3s; font-size:0.9rem; }
-.time-slot:hover,.time-slot.selected { background:linear-gradient(135deg,#3b82f6,#8b5cf6); border-color:transparent; }
-.confirm-btn { width:100%; background:linear-gradient(135deg,#10b981,#059669); color:white; padding:14px; border-radius:12px; font-weight:600; margin-top:16px; transition:all 0.3s; border:none; cursor:pointer; }
-.confirm-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(16,185,129,0.4); }
-.success-check { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#10b981,#059669); margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:2.5rem; animation:successPop 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+.time-slot:hover,.time-slot.selected { background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); border-color:transparent; }
+.confirm-btn { width:100%; background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink)); color:white; padding:14px; border-radius:12px; font-weight:600; margin-top:16px; transition:all 0.3s; border:none; cursor:pointer; }
+.confirm-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(236,64,122,0.4); }
+.success-check { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, var(--accent-pink), var(--primary-blue)); margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:2.5rem; animation:successPop 0.6s cubic-bezier(0.34,1.56,0.64,1); }
 @keyframes successPop { 0%{transform:scale(0) rotate(-180deg)} 100%{transform:scale(1) rotate(0)} }
 
-.big-avatar { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#ec4899,#8b5cf6); margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; }
+.big-avatar { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, var(--accent-pink), var(--primary-blue)); margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; }
 .logout-btn { width:100%; background:linear-gradient(135deg,#ef4444,#dc2626); color:white; padding:12px; border-radius:12px; font-weight:600; border:none; cursor:pointer; margin-top:16px; transition:all 0.3s; }
 .logout-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(239,68,68,0.4); }
 
 /* ── VOICE MIC BUTTON ── */
 .mic-btn {
     width:46px; height:46px; border-radius:50%; border:none; cursor:pointer;
-    background:linear-gradient(135deg,#10b981,#059669); color:white;
+    background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink)); color:white;
     display:flex; align-items:center; justify-content:center; font-size:1.1rem;
     transition:all 0.3s ease; position:relative; flex-shrink:0;
 }
-.mic-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(16,185,129,0.4); }
+.mic-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(236,64,122,0.4); }
 .mic-btn.recording {
     background:linear-gradient(135deg,#ef4444,#dc2626);
     animation:mic-pulse 1.2s infinite ease-in-out;
@@ -232,7 +286,7 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 }
 .mic-status.visible { opacity:1; }
 .mic-status.error { color:#f87171; border-color:rgba(239,68,68,0.3); }
-.mic-status.listening { color:#34d399; border-color:rgba(16,185,129,0.3); }
+.mic-status.listening { color:var(--accent-pink); border-color:var(--accent-pink-opaque); }
 
 /* ── DASHBOARD STYLES ── */
 .stat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:24px; }
@@ -243,22 +297,22 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 }
 .stat-card:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,0.3); }
 .stat-card::after { content:''; position:absolute; top:-30px; right:-30px; width:90px; height:90px; border-radius:50%; opacity:0.08; }
-.stat-card.blue::after   { background:#3b82f6; }
-.stat-card.purple::after { background:#8b5cf6; }
-.stat-card.green::after  { background:#10b981; }
-.stat-card.pink::after   { background:#ec4899; }
-.stat-card.amber::after  { background:#f59e0b; }
+.stat-card.blue::after   { background: var(--primary-blue); }
+.stat-card.purple::after { background: var(--accent-pink); }
+.stat-card.green::after  { background:var(--accent-pink); }
+.stat-card.pink::after   { background: var(--accent-pink); }
+.stat-card.amber::after  { background: linear-gradient(135deg, rgba(47,128,237,0.9), rgba(236,64,122,0.9)); }
 .stat-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin-bottom:14px; }
-.stat-icon.blue   { background:rgba(59,130,246,0.2);  color:#60a5fa; }
-.stat-icon.purple { background:rgba(139,92,246,0.2);  color:#a78bfa; }
-.stat-icon.green  { background:rgba(16,185,129,0.2);  color:#34d399; }
-.stat-icon.pink   { background:rgba(236,72,153,0.2);  color:#f472b6; }
-.stat-icon.amber  { background:rgba(245,158,11,0.2);  color:#fbbf24; }
+.stat-icon.blue   { background:rgba(47,128,237,0.18);  color:var(--primary-blue); }
+.stat-icon.purple { background:rgba(236,64,122,0.18);  color:var(--accent-pink); }
+.stat-icon.green  { background:rgba(236,64,122,0.15);  color:var(--accent-pink); }
+.stat-icon.pink   { background:rgba(236,64,122,0.2);  color:var(--accent-pink); }
+.stat-icon.amber  { background: linear-gradient(135deg, rgba(47,128,237,0.18), rgba(236,64,122,0.18));  color:white; }
 .stat-number { font-size:2rem; font-weight:800; line-height:1; margin-bottom:4px; }
 .stat-label  { font-size:0.8rem; color:#94a3b8; font-weight:500; }
 
 .dash-section-title { font-size:1.1rem; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:10px; color:#e2e8f0; }
-.dash-section-title i { color:#60a5fa; }
+.dash-section-title i { color:var(--primary-blue); }
 
 .quick-action-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; margin-bottom:28px; }
 .quick-action-btn {
@@ -266,19 +320,19 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
     background:rgba(255,255,255,0.04); cursor:pointer; transition:all 0.3s;
     text-align:center; color:#cbd5e1; font-size:0.85rem; font-weight:500;
 }
-.quick-action-btn:hover { background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.2)); border-color:rgba(59,130,246,0.4); color:white; transform:translateY(-3px); }
+.quick-action-btn:hover { background:linear-gradient(135deg,rgba(47,128,237,0.18),rgba(236,64,122,0.18)); border-color:rgba(236,64,122,0.4); color:white; transform:translateY(-3px); }
 .quick-action-btn i { display:block; font-size:1.5rem; margin-bottom:8px; }
 
 .health-tip-card {
     padding:20px; border-radius:16px;
-    background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(59,130,246,0.1));
-    border:1px solid rgba(16,185,129,0.2); margin-bottom:24px;
+    background:linear-gradient(135deg,rgba(236,64,122,0.08),rgba(47,128,237,0.1));
+    border:1px solid rgba(236,64,122,0.18); margin-bottom:24px;
     display:flex; align-items:flex-start; gap:14px;
 }
-.tip-icon { width:44px; height:44px; border-radius:12px; background:rgba(16,185,129,0.2); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+.tip-icon { width:44px; height:44px; border-radius:12px; background:rgba(236,64,122,0.18); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
 
 .dash-appt-row { display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); margin-bottom:10px; transition:all 0.3s; cursor:pointer; }
-.dash-appt-row:hover { background:rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.3); transform:translateX(4px); }
+.dash-appt-row:hover { background:rgba(248,187,208,0.12); border-color:rgba(236,64,122,0.28); transform:translateX(4px); }
 
 .dash-two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
 @media(max-width:900px){ .dash-two-col{ grid-template-columns:1fr; } }
@@ -300,24 +354,24 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 /* ── ABOUT PAGE STYLES ── */
 .about-hero {
     padding:32px; border-radius:20px; margin-bottom:24px;
-    background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15),rgba(236,72,153,0.1));
-    border:1px solid rgba(59,130,246,0.25); text-align:center; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,rgba(47,128,237,0.14),rgba(236,64,122,0.12),rgba(248,187,208,0.08));
+    border:1px solid rgba(236,64,122,0.2); text-align:center; position:relative; overflow:hidden;
 }
 .about-hero::before {
     content:''; position:absolute; top:-60px; right:-60px; width:180px; height:180px;
-    border-radius:50%; background:radial-gradient(circle,rgba(139,92,246,0.15),transparent);
+    border-radius:50%; background:radial-gradient(circle,rgba(236,64,122,0.15),transparent);
 }
 .about-hero::after {
     content:''; position:absolute; bottom:-60px; left:-60px; width:180px; height:180px;
-    border-radius:50%; background:radial-gradient(circle,rgba(59,130,246,0.15),transparent);
+    border-radius:50%; background:radial-gradient(circle,rgba(47,128,237,0.15),transparent);
 }
-.about-logo { font-size:3rem; font-weight:800; background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.about-logo { font-size:3rem; font-weight:800; background:linear-gradient(135deg, var(--primary-blue), var(--accent-pink), var(--soft-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 .feature-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; margin-bottom:24px; }
 .feature-card {
     padding:22px; border-radius:16px; background:rgba(255,255,255,0.04);
     border:1px solid rgba(255,255,255,0.08); transition:all 0.3s;
 }
-.feature-card:hover { background:rgba(255,255,255,0.07); border-color:rgba(59,130,246,0.3); transform:translateY(-3px); }
+.feature-card:hover { background:rgba(255,255,255,0.07); border-color:rgba(236,64,122,0.3); transform:translateY(-3px); }
 .feature-icon { width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:14px; }
 .about-tech-pill { display:inline-block; padding:6px 14px; margin:4px; border-radius:20px; font-size:0.78rem; font-weight:600; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#cbd5e1; }
 .about-info-row { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:0.9rem; }
@@ -330,25 +384,136 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
 
 /* CUSTOM SCROLLBAR FOR REVIEWS */
 .review-scroll::-webkit-scrollbar { width:4px; }
-.review-scroll::-webkit-scrollbar-thumb { background:rgba(59,130,246,0.4); border-radius:2px; }
+.review-scroll::-webkit-scrollbar-thumb { background:rgba(236,64,122,0.4); border-radius:2px; }
+
+#splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(236, 64, 122, 0.12), rgba(248, 187, 208, 0.24), rgba(47, 128, 237, 0.12));
+    overflow: hidden;
+}
+.splash-shell {
+    position: relative;
+    width: min(100%, 760px);
+    padding: 44px 32px;
+    border-radius: 32px;
+    background: linear-gradient(140deg, rgba(255,255,255,0.95), rgba(248, 187, 208, 0.16));
+    box-shadow: 0 30px 80px rgba(47, 128, 237, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(26px);
+    transform: scale(0.98);
+    animation: shellPop 0.9s ease forwards;
+}
+.splash-glow {
+    position: absolute;
+    inset: -18%;
+    background: radial-gradient(circle at 20% 25%, rgba(47, 128, 237, 0.22), transparent 24%),
+                radial-gradient(circle at 80% 30%, rgba(236, 64, 122, 0.22), transparent 20%),
+                radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.4), transparent 18%);
+    filter: blur(32px);
+    opacity: 0.95;
+    pointer-events: none;
+}
+.splash-bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(236, 64, 122, 0.14);
+    animation: splashBubble 10s infinite ease-in-out;
+}
+.bubble-1 { width: 96px; height: 96px; top: 10%; left: 12%; }
+.bubble-2 { width: 64px; height: 64px; top: 18%; right: 18%; animation-delay: 2s; background: rgba(248, 187, 208, 0.16); }
+.bubble-3 { width: 120px; height: 120px; bottom: 18%; left: 16%; animation-delay: 4s; }
+.bubble-4 { width: 80px; height: 80px; bottom: 14%; right: 20%; animation-delay: 6s; }
+.bubble-5 { width: 46px; height: 46px; top: 52%; left: 52%; animation-delay: 3.5s; background: rgba(255, 255, 255, 0.55); }
+.splash-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 18px;
+    margin: 0 auto 20px;
+    border-radius: 999px;
+    background: rgba(236, 64, 122, 0.08);
+    color: #b42f74;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: splashFadeIn 0.9s ease 0.3s forwards;
+}
+.splash-title {
+    margin: 0;
+    color: #b52672;
+    font-size: clamp(3.2rem, 7vw, 5.2rem);
+    line-height: 0.95;
+    letter-spacing: -0.08em;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0 24px 50px rgba(236, 64, 122, 0.16);
+    opacity: 0;
+    animation: splashFadeIn 0.9s ease 0.5s forwards;
+}
+.splash-title::after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 4px;
+    margin: 20px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ec407a, #f8bcd0);
+    opacity: 0.9;
+}
+.splash-quote {
+    margin: 20px auto 0;
+    max-width: 680px;
+    color: #8f3c72;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.8;
+    text-align: center;
+    opacity: 0;
+    animation: splashFadeIn 0.9s ease 0.9s forwards;
+}
+.splash-screen.fade-out { opacity: 0; transition: opacity 0.8s ease; pointer-events: none; }
+@keyframes splashFadeIn { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes shellPop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes splashBubble { 0%,100% { transform: translateY(0) scale(1); opacity: 0.75; } 50% { transform: translateY(-16px) scale(1.05); opacity: 0.55; } }
 
 @media(max-width:768px){ .sidebar{display:none} .app-wrap{padding:10px} }
 </style>
 </head>
 <body>
 
+<div id="splash-screen" class="splash-screen">
+    <div class="splash-shell">
+        <div class="splash-glow"></div>
+        <div class="splash-bubble bubble-1"></div>
+        <div class="splash-bubble bubble-2"></div>
+        <div class="splash-bubble bubble-3"></div>
+        <div class="splash-bubble bubble-4"></div>
+        <div class="splash-bubble bubble-5"></div>
+        <div class="splash-pill">Women’s Cancer Awareness</div>
+        <h1 class="splash-title">MediLine</h1>
+        <p class="splash-quote">Awareness today, hope for tomorrow. Early detection saves lives.</p>
+    </div>
+</div>
+
 <div class="bg-animation">
     <div class="particle" style="width:80px;height:80px;top:10%;left:10%;"></div>
-    <div class="particle" style="width:120px;height:120px;top:60%;left:80%;background:rgba(139,92,246,0.4);animation-delay:3s;"></div>
-    <div class="particle" style="width:60px;height:60px;top:30%;left:70%;background:rgba(236,72,153,0.4);animation-delay:6s;"></div>
+    <div class="particle" style="width:120px;height:120px;top:60%;left:80%;background:rgba(236,64,122,0.4);animation-delay:3s;"></div>
+    <div class="particle" style="width:60px;height:60px;top:30%;left:70%;background:rgba(248,187,208,0.4);animation-delay:6s;"></div>
     <div class="particle" style="width:100px;height:100px;top:80%;left:20%;animation-delay:9s;"></div>
-    <div class="particle" style="width:70px;height:70px;top:50%;left:50%;background:rgba(16,185,129,0.3);animation-delay:12s;"></div>
+    <div class="particle" style="width:70px;height:70px;top:50%;left:50%;background:rgba(236,64,122,0.3);animation-delay:12s;"></div>
     <div class="dna-line" style="left:15%;top:20%;"></div>
     <div class="dna-line" style="left:85%;top:40%;animation-delay:1s;"></div>
     <div class="dna-line" style="left:45%;top:70%;animation-delay:2s;"></div>
 </div>
 
-<div id="login-page" class="login-page">
+<div id="login-page" class="login-page" style="display:none;">
     <div class="login-box glass">
         <div class="text-center mb-6">
             <div class="logo mb-1"><i class="fas fa-heartbeat"></i> MediLine</div>
@@ -426,11 +591,11 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 <i class="fas fa-chevron-right text-slate-500 text-xs"></i>
             </div>
         </div>
-        <div class="glass p-4 mt-4" style="background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15));">
+        <div class="glass p-4 mt-4" style="background:linear-gradient(135deg,rgba(47,128,237,0.14),rgba(236,64,122,0.12));">
             <div class="text-xs text-slate-400 mb-1">AI Assistant</div>
             <div class="text-sm font-semibold">24/7 Available</div>
-            <div class="flex items-center gap-1 mt-2 text-xs text-green-400">
-                <span style="width:8px;height:8px;background:#10b981;border-radius:50%;display:inline-block;"></span> Online
+            <div class="flex items-center gap-1 mt-2 text-xs text-pink-300">
+                <span style="width:8px;height:8px;background:var(--accent-pink);border-radius:50%;display:inline-block;"></span> Online
             </div>
         </div>
     </div>
@@ -441,7 +606,7 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             <h2 class="page-title">Welcome Back, <span id="home-name">Friend</span>! 👋</h2>
             <p class="page-subtitle">Your comprehensive digital healthcare companion.</p>
 
-            <div class="glass p-6 md:p-8 mb-6" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1)); border:1px solid rgba(59,130,246,0.2); border-radius: 20px;">
+            <div class="glass p-6 md:p-8 mb-6" style="background:linear-gradient(135deg,rgba(47,128,237,0.1),rgba(236,64,122,0.1)); border:1px solid rgba(236,64,122,0.2); border-radius: 20px;">
                 <h3 class="text-2xl font-bold mb-3 text-white">Welcome to MediLine AI</h3>
                 <p class="text-slate-300 leading-relaxed max-w-3xl mb-8">
                     MediLine AI is your one-stop solution for all your medical needs. We bring world-class healthcare directly to your fingertips. Experience care that is accessible, personalized, and always secure, backed by cutting-edge AI diagnostics and top-rated medical specialists.
@@ -450,10 +615,10 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 <h4 class="text-xl font-bold mb-6 text-white border-b border-white/10 pb-3"><i class="fas fa-users text-blue-400 mr-2"></i>Meet the Team</h4>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(59,130,246,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
-                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);">SY</div>
+                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(236,64,122,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink));">SY</div>
                         <h5 class="font-bold text-lg text-white mb-1">Saranjaya Yadav</h5>
-                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(59,130,246,0.2); color:#60a5fa;">Founder</div>
+                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(236,64,122,0.2); color:var(--accent-pink);">Founder</div>
                         <p class="text-sm text-slate-400 italic mb-5">"Innovating healthcare for a healthier, more connected tomorrow."</p>
                         <div class="flex justify-center gap-5 mt-auto">
                             <a href="#" class="text-slate-400 hover:text-pink-500 transition-colors transform hover:scale-110"><i class="fab fa-instagram text-xl"></i></a>
@@ -461,10 +626,10 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                         </div>
                     </div>
                     
-                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(139,92,246,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
-                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">SB</div>
+                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(236,64,122,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,var(--accent-pink),var(--primary-blue));">SB</div>
                         <h5 class="font-bold text-lg text-white mb-1">Subham Bose</h5>
-                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(139,92,246,0.2); color:#a78bfa;">Core Member</div>
+                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(236,64,122,0.2); color:var(--accent-pink);">Core Member</div>
                         <p class="text-sm text-slate-400 italic mb-5">"Code is poetry, and building systems that save lives is our masterpiece."</p>
                         <div class="flex justify-center gap-5 mt-auto">
                             <a href="#" class="text-slate-400 hover:text-pink-500 transition-colors transform hover:scale-110"><i class="fab fa-instagram text-xl"></i></a>
@@ -472,10 +637,10 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                         </div>
                     </div>
 
-                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(139,92,246,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
-                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">SB</div>
+                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(236,64,122,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,var(--accent-pink),var(--primary-blue));">SB</div>
                         <h5 class="font-bold text-lg text-white mb-1">Subham Shaw</h5>
-                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(139,92,246,0.2); color:#a78bfa;">Core Member</div>
+                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(236,64,122,0.2); color:var(--accent-pink);">Core Member</div>
                         <p class="text-sm text-slate-400 italic mb-5">"Code is poetry, and building systems that save lives is our masterpiece."</p>
                         <div class="flex justify-center gap-5 mt-auto">
                             <a href="#" class="text-slate-400 hover:text-pink-500 transition-colors transform hover:scale-110"><i class="fab fa-instagram text-xl"></i></a>
@@ -483,11 +648,22 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                         </div>
                     </div>
 
-                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(16,185,129,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
-                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,#6d3d87,#3b82f6);">A</div>
+                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(236,64,122,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink));">A</div>
                         <h5 class="font-bold text-lg text-white mb-1">Aritra Dutta</h5>
-                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(16,185,129,0.2); color:#34d399;">Core Member</div>
+                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(236,64,122,0.2); color:var(--accent-pink);">Core Member</div>
                         <p class="text-sm text-slate-400 italic mb-5">"Bridging the gap between cutting-edge AI and human empathy."</p>
+                        <div class="flex justify-center gap-5 mt-auto">
+                            <a href="#" class="text-slate-400 hover:text-pink-500 transition-colors transform hover:scale-110"><i class="fab fa-instagram text-xl"></i></a>
+                            <a href="#" class="text-slate-400 hover:text-white transition-colors transform hover:scale-110"><i class="fab fa-github text-xl"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-xl text-center relative overflow-hidden" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(236,64,122,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)';">
+                        <div class="w-20 h-20 mx-auto rounded-full mb-3 flex items-center justify-center text-2xl font-bold shadow-lg" style="background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink));">SR</div>
+                        <h5 class="font-bold text-lg text-white mb-1">Sayan Roy</h5>
+                        <div class="text-xs font-semibold px-3 py-1 rounded-full inline-block mb-3" style="background:rgba(236,64,122,0.2); color:var(--accent-pink);">Core Member</div>
+                        <p class="text-sm text-slate-400 italic mb-5">"Committed to building impactful healthcare solutions with precision and care."</p>
                         <div class="flex justify-center gap-5 mt-auto">
                             <a href="#" class="text-slate-400 hover:text-pink-500 transition-colors transform hover:scale-110"><i class="fab fa-instagram text-xl"></i></a>
                             <a href="#" class="text-slate-400 hover:text-white transition-colors transform hover:scale-110"><i class="fab fa-github text-xl"></i></a>
@@ -506,22 +682,22 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             <div class="dash-section-title"><i class="fas fa-bolt"></i> Quick Actions</div>
             <div class="quick-action-grid">
                 <div class="quick-action-btn" onclick="nav('ai')">
-                    <i class="fas fa-robot" style="color:#60a5fa;"></i>AI Health Check
+                    <i class="fas fa-robot" style="color:var(--primary-blue);"></i>AI Health Check
                 </div>
                 <div class="quick-action-btn" onclick="nav('doctors')">
-                    <i class="fas fa-user-md" style="color:#a78bfa;"></i>Find Doctor
+                    <i class="fas fa-user-md" style="color:var(--accent-pink);"></i>Find Doctor
                 </div>
                 <div class="quick-action-btn" onclick="nav('appointments')">
-                    <i class="fas fa-calendar-check" style="color:#34d399;"></i>My Appointments
+                    <i class="fas fa-calendar-check" style="color:var(--primary-blue);"></i>My Appointments
                 </div>
                 <div class="quick-action-btn" onclick="nav('ai');setTimeout(()=>triggerRxUpload(),400)">
-                    <i class="fas fa-file-medical" style="color:#f472b6;"></i>Scan Document
+                    <i class="fas fa-file-medical" style="color:var(--accent-pink);"></i>Scan Document
                 </div>
                 <div class="quick-action-btn" onclick="nav('profile')">
-                    <i class="fas fa-user-edit" style="color:#fbbf24;"></i>Edit Profile
+                    <i class="fas fa-user-edit" style="color:var(--primary-blue);"></i>Edit Profile
                 </div>
                 <div class="quick-action-btn" onclick="nav('about')">
-                    <i class="fas fa-info-circle" style="color:#67e8f9;"></i>About App
+                    <i class="fas fa-info-circle" style="color:var(--primary-blue);"></i>About App
                 </div>
             </div>
 
@@ -540,8 +716,8 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                             <circle class="ring-track" cx="50" cy="50" r="45"/>
                             <circle class="ring-fill" id="dash-ring" cx="50" cy="50" r="45" stroke="url(#rg)"/>
                             <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#3b82f6"/>
-                                <stop offset="100%" stop-color="#10b981"/>
+                                <stop offset="0%" stop-color="var(--primary-blue)"/>
+                                <stop offset="100%" stop-color="var(--accent-pink)"/>
                             </linearGradient></defs>
                         </svg>
                         <div class="ring-label mt-3" id="dash-ring-label">—</div>
@@ -624,7 +800,7 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                             </div>
                             <div class="w-full text-left text-sm pb-2">
                                 <span class="text-slate-400"><i class="fas fa-robot mr-2"></i>AI Scanner</span>
-                                <span class="float-right font-bold text-green-400">Ready ✓</span>
+                                <span class="float-right font-bold text-pink-300">Ready ✓</span>
                             </div>
                         </div>
                         <button class="logout-btn w-full mt-4" onclick="logout()"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button>
@@ -685,7 +861,7 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                             <button class="confirm-btn !w-auto px-8 py-3 !mt-0 shadow-lg" onclick="saveProfileData()">
                                 <i class="fas fa-save mr-2"></i>Save Changes
                             </button>
-                            <div id="prof-save-msg" class="text-green-400 text-sm font-semibold mt-3" style="display:none; animation:fadeUp 0.3s ease;">
+                            <div id="prof-save-msg" class="text-pink-300 text-sm font-semibold mt-3" style="display:none; animation:fadeUp 0.3s ease;">
                                 Profile saved successfully! <i class="fas fa-check-circle ml-1"></i>
                             </div>
                         </div>
@@ -711,11 +887,11 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                         <div class="text-xs text-slate-400 mt-1">Specialists</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-2xl font-bold text-purple-400">24/7</div>
+                        <div class="text-2xl font-bold text-pink-300">24/7</div>
                         <div class="text-xs text-slate-400 mt-1">AI Support</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-2xl font-bold text-green-400">3</div>
+                        <div class="text-2xl font-bold text-pink-300">3</div>
                         <div class="text-xs text-slate-400 mt-1">Languages</div>
                     </div>
                     <div class="text-center">
@@ -728,42 +904,42 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             <div class="dash-section-title"><i class="fas fa-star"></i> Key Features</div>
             <div class="feature-grid mb-6">
                 <div class="feature-card">
-                    <div class="feature-icon" style="background:rgba(59,130,246,0.2);color:#60a5fa;"><i class="fas fa-robot"></i></div>
+                    <div class="feature-icon" style="background:rgba(47,128,237,0.15);color:var(--primary-blue);"><i class="fas fa-robot"></i></div>
                     <div class="font-semibold mb-1">AI Symptom Analysis</div>
                     <div class="text-xs text-slate-400 leading-relaxed">Describe your symptoms in plain language and get an instant AI-powered health assessment with specialist routing.</div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon" style="background:rgba(139,92,246,0.2);color:#a78bfa;"><i class="fas fa-file-medical"></i></div>
+                    <div class="feature-icon" style="background:rgba(236,64,122,0.15);color:var(--accent-pink);"><i class="fas fa-file-medical"></i></div>
                     <div class="font-semibold mb-1">Document & Rx Scanner</div>
                     <div class="text-xs text-slate-400 leading-relaxed">Upload prescriptions, lab reports, or medical documents (Image/PDF/Text) for instant AI analysis and medicine breakdown.</div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon" style="background:rgba(16,185,129,0.2);color:#34d399;"><i class="fas fa-calendar-check"></i></div>
+                    <div class="feature-icon" style="background:rgba(47,128,237,0.15);color:var(--primary-blue);"><i class="fas fa-calendar-check"></i></div>
                     <div class="font-semibold mb-1">Smart Appointment Booking</div>
                     <div class="text-xs text-slate-400 leading-relaxed">Browse top-rated specialists by category, read patient reviews, and book appointments with time-slot selection.</div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon" style="background:rgba(236,72,153,0.2);color:#f472b6;"><i class="fas fa-video"></i></div>
+                    <div class="feature-icon" style="background:rgba(236,64,122,0.18);color:var(--accent-pink);"><i class="fas fa-video"></i></div>
                     <div class="font-semibold mb-1">Video Consultations</div>
                     <div class="text-xs text-slate-400 leading-relaxed">Start secure video calls directly from any doctor's card for remote consultations without leaving the app.</div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon" style="background:rgba(245,158,11,0.2);color:#fbbf24;"><i class="fas fa-language"></i></div>
+                    <div class="feature-icon" style="background:rgba(236,64,122,0.15);color:var(--accent-pink);"><i class="fas fa-language"></i></div>
                     <div class="font-semibold mb-1">Multilingual Support</div>
                     <div class="text-xs text-slate-400 leading-relaxed">Communicate in English, Hindi, or Bengali. MediBot auto-detects your language and responds accordingly.</div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon" style="background:rgba(99,102,241,0.2);color:#818cf8;"><i class="fas fa-microphone"></i></div>
+                    <div class="feature-icon" style="background:rgba(236,64,122,0.15);color:var(--accent-pink);"><i class="fas fa-microphone"></i></div>
                     <div class="font-semibold mb-1">Voice Input</div>
                     <div class="text-xs text-slate-400 leading-relaxed">Speak your symptoms using the built-in voice recorder. Supports voice input in multiple languages via Web Speech API.</div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon" style="background:rgba(20,184,166,0.2);color:#2dd4bf;"><i class="fas fa-chart-line"></i></div>
+                    <div class="feature-icon" style="background:rgba(47,128,237,0.15);color:var(--primary-blue);"><i class="fas fa-chart-line"></i></div>
                     <div class="font-semibold mb-1">Health Dashboard</div>
                     <div class="text-xs text-slate-400 leading-relaxed">Track your health score, appointment history, weekly activity, and get personalized daily health tips.</div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon" style="background:rgba(239,68,68,0.2);color:#f87171;"><i class="fas fa-shield-alt"></i></div>
+                    <div class="feature-icon" style="background:rgba(236,64,122,0.15);color:var(--accent-pink);"><i class="fas fa-shield-alt"></i></div>
                     <div class="font-semibold mb-1">Privacy First</div>
                     <div class="text-xs text-slate-400 leading-relaxed">All data stored locally in your browser. No third-party data sharing. Your health information stays private.</div>
                 </div>
@@ -773,19 +949,19 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
             <div class="about-section mb-6">
                 <div class="flex flex-col gap-5">
                     <div class="flex gap-4 items-start">
-                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;">1</div>
+                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;">1</div>
                         <div><div class="font-semibold mb-1">Sign Up & Set Up Your Profile</div><div class="text-sm text-slate-400">Create a free account and fill in your health details — blood group, DOB, gender — for a personalised experience.</div></div>
                     </div>
                     <div class="flex gap-4 items-start">
-                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;">2</div>
+                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent-pink),var(--primary-blue));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;">2</div>
                         <div><div class="font-semibold mb-1">Describe Your Symptoms or Upload a Document</div><div class="text-sm text-slate-400">Chat with MediBot AI, use voice input, or upload a prescription / lab report for instant analysis.</div></div>
                     </div>
                     <div class="flex gap-4 items-start">
-                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#f59e0b);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;">3</div>
+                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent-pink),rgba(248,187,208,0.8));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;">3</div>
                         <div><div class="font-semibold mb-1">Get Smart Specialist Routing</div><div class="text-sm text-slate-400">The AI assesses your condition, assigns a priority level, and recommends the right specialist for you.</div></div>
                     </div>
                     <div class="flex gap-4 items-start">
-                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;">4</div>
+                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;">4</div>
                         <div><div class="font-semibold mb-1">Book an Appointment or Start a Video Call</div><div class="text-sm text-slate-400">Pick a doctor, select a date &amp; time slot, confirm your booking, or start an instant video consultation.</div></div>
                     </div>
                 </div>
@@ -799,10 +975,10 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                     <span class="about-tech-pill"><i class="fab fa-css3-alt mr-1" style="color:#264de4;"></i>CSS3</span>
                     <span class="about-tech-pill"><i class="fab fa-js-square mr-1" style="color:#f7df1e;"></i>Vanilla JavaScript</span>
                     <span class="about-tech-pill" style="color:#38bdf8;border-color:rgba(56,189,248,0.3);">Tailwind CSS</span>
-                    <span class="about-tech-pill"><i class="fas fa-database mr-1" style="color:#34d399;"></i>localStorage</span>
-                    <span class="about-tech-pill"><i class="fas fa-microphone mr-1" style="color:#a78bfa;"></i>Web Speech API</span>
-                    <span class="about-tech-pill"><i class="fas fa-video mr-1" style="color:#f472b6;"></i>WebRTC / getUserMedia</span>
-                    <span class="about-tech-pill"><i class="fas fa-paint-brush mr-1" style="color:#fbbf24;"></i>Glassmorphism UI</span>
+                    <span class="about-tech-pill"><i class="fas fa-database mr-1" style="color:var(--accent-pink);"></i>localStorage</span>
+                    <span class="about-tech-pill"><i class="fas fa-microphone mr-1" style="color:var(--accent-pink);"></i>Web Speech API</span>
+                    <span class="about-tech-pill"><i class="fas fa-video mr-1" style="color:var(--accent-pink);"></i>WebRTC / getUserMedia</span>
+                    <span class="about-tech-pill"><i class="fas fa-paint-brush mr-1" style="color:var(--accent-pink);"></i>Glassmorphism UI</span>
                 </div>
             </div>
 
@@ -830,7 +1006,7 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 </div>
                 <div class="about-info-row">
                     <span class="text-slate-400">Data Storage</span>
-                    <span class="font-semibold text-green-400"><i class="fas fa-lock mr-1"></i>Local Only</span>
+                    <span class="font-semibold text-pink-300"><i class="fas fa-lock mr-1"></i>Local Only</span>
                 </div>
                 <div class="about-info-row">
                     <span class="text-slate-400">AI Model</span>
@@ -873,33 +1049,58 @@ body { background: #0a0e27; color: #fff; overflow-x: hidden; min-height: 100vh; 
                 <video id="modalRemoteVideo" autoplay playsinline class="rounded-xl bg-black"></video>
             </div>
         </div>
-        <button class="logout-btn mt-6" onclick="endCall(); closeModal('call-modal')">End Call</button>
     </div>
 </div>
 
+<script>
+window.addEventListener('load', () => {
+    const splash = document.getElementById('splash-screen');
+    const login = document.getElementById('login-page');
+    if (login) {
+        login.style.display = 'none';
+    }
+    setTimeout(() => {
+        if (splash) {
+            splash.classList.add('fade-out');
+        }
+        setTimeout(() => {
+            if (splash) {
+                splash.style.display = 'none';
+            }
+            if (login) {
+                login.style.display = 'flex';
+            }
+        }, 850);
+    }, 3000);
+});
+</script>
 
 <script>
 /* ════════════════ DATA ════════════════ */
 let DOCTORS = [
-    {id:1, name:"Dr Amit Sharma",  cat:"Heart",  spec:"Cardiologist",        rating:"4.9", exp:"15 yrs", fee:"₹800",  hospital:"Apollo Hospital",    dist:"2.3 km"},
-    {id:2, name:"Dr Priya Singh",  cat:"Dental",  spec:"Dentist",            rating:"4.7", exp:"10 yrs", fee:"₹500",  hospital:"Smile Care Clinic",  dist:"1.8 km"},
-    {id:3, name:"Dr Rahul Verma",  cat:"General", spec:"General Physician",  rating:"4.5", exp:"12 yrs", fee:"₹400",  hospital:"City Hospital",        dist:"0.9 km"},
-    {id:4, name:"Dr Sameer Khan",  cat:"Eye",     spec:"Ophthalmologist",    rating:"4.8", exp:"14 yrs", fee:"₹600",  hospital:"Vision Plus",          dist:"3.1 km"},
-    {id:5, name:"Dr Sunita Rao",   cat:"Brain",   spec:"Neurologist",        rating:"4.9", exp:"18 yrs", fee:"₹1000", hospital:"NeuroCare",            dist:"4.2 km"},
-    {id:6, name:"Dr Kavya Mehta",  cat:"Skin",    spec:"Dermatologist",      rating:"4.8", exp:"11 yrs", fee:"₹700",  hospital:"SkinGlow Clinic",      dist:"2.7 km"},
-    {id:7, name:"Dr Arjun Patel",  cat:"Bone",    spec:"Orthopedic",         rating:"4.7", exp:"13 yrs", fee:"₹750",  hospital:"BoneFit Center",       dist:"3.5 km"},
-    {id:8, name:"Dr Neha Kapoor",  cat:"Stomach", spec:"Gastroenterologist", rating:"4.6", exp:"9 yrs",  fee:"₹650",  hospital:"GutCare Hospital",     dist:"2.1 km"},
-    {id:9, name:"Dr Ravi Menon",   cat:"Heart",   spec:"Cardiologist",       rating:"4.6", exp:"11 yrs", fee:"₹750",  hospital:"HeartBeat Center",     dist:"3.8 km"},
-    {id:10,name:"Dr Anjali Das",   cat:"Skin",    spec:"Dermatologist",      rating:"4.7", exp:"8 yrs",  fee:"₹600",  hospital:"DermaCare Clinic",     dist:"1.5 km"},
+    {id:1, name:"Dr Amit Sharma",  cat:"Heart",      spec:"Cardiologist",       rating:"4.9", exp:"15 yrs", fee:"₹800",  hospital:"Apollo Hospital",       dist:"2.3 km", available:true},
+    {id:2, name:"Dr Priya Singh",  cat:"Dental",     spec:"Dentist",            rating:"4.7", exp:"10 yrs", fee:"₹500",  hospital:"Smile Care Clinic",     dist:"1.8 km", available:false},
+    {id:3, name:"Dr Rahul Verma",  cat:"General",    spec:"General Physician", rating:"4.5", exp:"12 yrs", fee:"₹400",  hospital:"City Hospital",         dist:"0.9 km", available:true},
+    {id:4, name:"Dr Sameer Khan",  cat:"Eye",        spec:"Ophthalmologist",    rating:"4.8", exp:"14 yrs", fee:"₹600",  hospital:"Vision Plus",           dist:"3.1 km", available:true},
+    {id:5, name:"Dr Sunita Rao",   cat:"Brain",      spec:"Neurologist",        rating:"4.9", exp:"18 yrs", fee:"₹1000", hospital:"NeuroCare",             dist:"4.2 km", available:false},
+    {id:6, name:"Dr Kavya Mehta",  cat:"Skin",       spec:"Dermatologist",      rating:"4.8", exp:"11 yrs", fee:"₹700",  hospital:"SkinGlow Clinic",       dist:"2.7 km", available:true},
+    {id:7, name:"Dr Arjun Patel",  cat:"Bone",       spec:"Orthopedic",         rating:"4.7", exp:"13 yrs", fee:"₹750",  hospital:"BoneFit Center",        dist:"3.5 km", available:true},
+    {id:8, name:"Dr Neha Kapoor",  cat:"Stomach",    spec:"Gastroenterologist", rating:"4.6", exp:"9 yrs",  fee:"₹650",  hospital:"GutCare Hospital",      dist:"2.1 km", available:false},
+    {id:9, name:"Dr Ravi Menon",   cat:"Heart",      spec:"Cardiologist",       rating:"4.6", exp:"11 yrs", fee:"₹750",  hospital:"HeartBeat Center",      dist:"3.8 km", available:true},
+    {id:10,name:"Dr Anjali Das",   cat:"Skin",       spec:"Dermatologist",      rating:"4.7", exp:"8 yrs",  fee:"₹600",  hospital:"DermaCare Clinic",      dist:"1.5 km", available:true},
+    {id:11,name:"Dr Anand Mehta",  cat:"Endocrine",  spec:"Endocrinologist",    rating:"4.8", exp:"14 yrs", fee:"₹900",  hospital:"LifeCare Endocrine",    dist:"2.8 km", available:true},
 ];
 
-const HOSPITALS = [
-    {name:"Apollo Hospital",       dist:"2.5 km", type:"Multi-Specialty",            phone:"033-2320-3040"},
-    {name:"Fortis Hospital",       dist:"3.8 km", type:"Emergency & Critical Care",  phone:"033-6628-4444"},
-    {name:"AIIMS Medical Centre",  dist:"5.2 km", type:"Advanced Tertiary Care",     phone:"011-2658-8500"},
+const DEFAULT_HOSPITALS = [
+    {name:"Apollo Hospital",       dist:"2.5 km", type:"Multi-Specialty",            phone:"033-2320-3040", rating:"4.7"},
+    {name:"Fortis Hospital",       dist:"3.8 km", type:"Emergency & Critical Care",  phone:"033-6628-4444", rating:"4.6"},
+    {name:"AIIMS Medical Centre",  dist:"5.2 km", type:"Advanced Tertiary Care",     phone:"011-2658-8500", rating:"4.8"},
 ];
+let DYNAMIC_HOSPITALS = null;
+let hospitalFetchError = '';
 
-const CATEGORIES = ["All","Heart","Brain","Dental","Eye","Skin","Bone","Stomach","General"];
+const HOSPITALS = DEFAULT_HOSPITALS;
+const CATEGORIES = ["All","Heart","Endocrine","Brain","Dental","Eye","Skin","Bone","Stomach","General"];
 let localStream = null;
 
 const HEALTH_TIPS = [
@@ -911,6 +1112,209 @@ const HEALTH_TIPS = [
     { icon:"🌞", tip:"Get Sunlight", detail:"15–20 minutes of morning sunlight boosts Vitamin D, regulates circadian rhythm, and elevates serotonin." },
     { icon:"🦷", tip:"Oral Hygiene", detail:"Brush twice daily and floss once. Poor oral health is linked to heart disease, diabetes, and respiratory issues." },
 ];
+
+function parseDistance(value) {
+    if (typeof value !== 'string') return 999;
+    return parseFloat(value.replace(/[^0-9\.]/g, '')) || 999;
+}
+
+function getSessionLocation() {
+    try {
+        const item = sessionStorage.getItem('ml_location');
+        if (!item) return null;
+        return JSON.parse(item);
+    } catch (e) {
+        return null;
+    }
+}
+
+function setSessionLocation(location) {
+    try {
+        sessionStorage.setItem('ml_location', JSON.stringify(location));
+    } catch (e) {
+        console.warn('Could not cache location', e);
+    }
+}
+
+function rankDoctors(condition) {
+    const spec = (condition && condition.spec) ? condition.spec.toLowerCase() : 'general physician';
+    const category = (condition && condition.category) ? condition.category.toLowerCase() : 'general';
+    let list = DOCTORS.filter(d => {
+        const matchesCategory = d.cat.toLowerCase() === category;
+        const matchesSpec = d.spec.toLowerCase().includes(spec) || spec.includes(d.spec.toLowerCase());
+        return matchesCategory || matchesSpec;
+    });
+    if (!list.length) list = DOCTORS.filter(d => d.cat.toLowerCase() === 'general');
+
+    return list
+        .map(doc => {
+            const rating = parseFloat(doc.rating) || 0;
+            const experience = parseInt(doc.exp, 10) || 0;
+            const distance = parseDistance(doc.dist);
+            const specialtyMatch = doc.spec.toLowerCase().includes(spec) ? 1 : 0;
+            const availability = doc.available ? 1 : 0;
+            const score = specialtyMatch * 120 + rating * 12 + experience * 0.5 + availability * 20 - distance;
+            return { ...doc, score };
+        })
+        .sort((a, b) => b.score - a.score);
+}
+
+function rankHospitals() {
+    const source = (DYNAMIC_HOSPITALS && DYNAMIC_HOSPITALS.length) ? DYNAMIC_HOSPITALS : HOSPITALS;
+    return [...source]
+        .map(h => ({
+            ...h,
+            distance: parseDistance(h.dist || h.location || ''),
+            score: (parseFloat(h.rating) || 0) * 10 - parseDistance(h.dist || h.location || '')
+        }))
+        .sort((a, b) => b.score - a.score);
+}
+
+function buildChatResponse(col) {
+    const condition = col.condition || { category: 'General', spec: 'General Physician', symptomsDetected: [] };
+    const symptomsDetected = Array.isArray(condition.symptomsDetected) && condition.symptomsDetected.length
+        ? condition.symptomsDetected
+        : [col.symptomText || 'General discomfort'];
+
+    const recommendedDoctors = rankDoctors(condition);
+    const nearbyHospitals = rankHospitals();
+
+    return {
+        symptoms_detected: symptomsDetected,
+        recommended_specialists: [condition.spec || 'General Physician'],
+        top_doctors: recommendedDoctors.slice(0, 4).map(doc => ({
+            id: doc.id,
+            name: doc.name,
+            experience: doc.exp,
+            rating: doc.rating,
+            location: doc.dist,
+            hospital: doc.hospital,
+            specialization: doc.spec,
+            available: doc.available
+        })),
+        nearby_hospitals: nearbyHospitals.slice(0, 3).map(h => ({
+            name: h.name,
+            location: h.location || h.dist,
+            rating: h.rating,
+            type: h.type,
+            phone: h.phone
+        }))
+    };
+}
+
+function requestUserLocation() {
+    const saved = getSessionLocation();
+    if (saved) {
+        chatState.userLocation = saved;
+        if (saved.enabled && saved.lat && saved.lon) {
+            fetchNearbyHospitals(saved.lat, saved.lon);
+        }
+        return;
+    }
+
+    if (!navigator.geolocation) {
+        hospitalFetchError = 'Unable to fetch nearby hospitals, showing default results';
+        chatState.userLocation = { enabled: false };
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            chatState.userLocation = {
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+                enabled: true
+            };
+            setSessionLocation(chatState.userLocation);
+            fetchNearbyHospitals(position.coords.latitude, position.coords.longitude);
+        },
+        error => {
+            hospitalFetchError = 'Unable to fetch nearby hospitals, showing default results';
+            chatState.userLocation = { enabled: false, error: error.message };
+            setSessionLocation(chatState.userLocation);
+        },
+        { timeout: 7000 }
+    );
+}
+
+async function fetchNearbyHospitals(lat, lon) {
+    const overpassUrl = 'https://overpass-api.de/api/interpreter';
+    const query = `[out:json][timeout:15];(node["amenity"="hospital"](around:5000,${lat},${lon});way["amenity"="hospital"](around:5000,${lat},${lon});rel["amenity"="hospital"](around:5000,${lat},${lon}););out center;`;
+    try {
+        const resp = await fetch(overpassUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: new URLSearchParams({ data: query })
+        });
+        if (!resp.ok) throw new Error('API request failed');
+        const data = await resp.json();
+        const hospitals = (data.elements || [])
+            .filter(item => item.tags && item.tags.name)
+            .map(item => {
+                const street = item.tags['addr:street'] || item.tags['addr:full'] || '';
+                const housenumber = item.tags['addr:housenumber'] ? ` ${item.tags['addr:housenumber']}` : '';
+                const city = item.tags['addr:city'] ? `, ${item.tags['addr:city']}` : '';
+                const vicinity = street ? `${street}${housenumber}${city}` : (item.tags['addr:city'] || item.tags['addr:suburb'] || 'Near you');
+                return {
+                    name: item.tags.name,
+                    location: vicinity,
+                    dist: item.tags['distance'] || 'Nearby',
+                    rating: item.tags.rating || 'N/A',
+                    type: item.tags.healthcare || item.tags['hospital:type'] || 'Hospital',
+                    phone: item.tags.phone || item.tags['contact:phone'] || ''
+                };
+            })
+            .slice(0, 5);
+        if (hospitals.length) {
+            DYNAMIC_HOSPITALS = hospitals;
+            hospitalFetchError = '';
+        } else {
+            DYNAMIC_HOSPITALS = null;
+            hospitalFetchError = 'Unable to fetch nearby hospitals, showing default results';
+        }
+    } catch (e) {
+        console.warn('Nearby hospital fetch failed', e);
+        DYNAMIC_HOSPITALS = null;
+        hospitalFetchError = 'Unable to fetch nearby hospitals, showing default results';
+    }
+}
+
+function renderChatRecommendations(response) {
+    const box = document.getElementById('chat-box');
+    box.innerHTML += `<div class="msg-wrapper"><div class="msg ai-msg" style="max-width:100%;width:100%;">
+        <div style="font-size:1rem;font-weight:700;margin-bottom:12px;">Recommended Doctors</div>
+        ${response.top_doctors.map(doc => `<div class="rec-doc-card" onclick="openBooking(${doc.id})" style="cursor:pointer;margin-bottom:12px;">
+            <div class="doc-avatar" style="width:44px;height:44px;font-size:0.9rem;flex-shrink:0;">${initials(doc.name)}</div>
+            <div style="flex:1;min-width:0;">
+                <div class="font-semibold text-sm">${doc.name}</div>
+                <div class="text-xs text-slate-400">${doc.specialization} · ${doc.hospital}</div>
+                <div class="text-xs mt-1">
+                    <span class="text-pink-300">⭐ ${doc.rating}</span>
+                    <span class="text-slate-400 mx-1">·</span>
+                    <span class="text-pink-300">${doc.experience}</span>
+                    <span class="text-slate-400 mx-1">·</span>
+                    <span class="text-pink-400">${doc.location}</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right text-slate-500 flex-shrink-0"></i>
+        </div>`).join('')}
+        <div style="font-size:1rem;font-weight:700;margin:20px 0 10px;">Nearby Hospitals</div>
+        ${response.nearby_hospitals.map(h => `<div class="rec-doc-card" style="cursor:default;margin-bottom:12px;">
+            <div class="doc-avatar" style="width:44px;height:44px;font-size:1.1rem;flex-shrink:0;background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink));">🏥</div>
+            <div style="flex:1;min-width:0;">
+                <div class="font-semibold text-sm">${h.name}</div>
+                <div class="text-xs text-slate-400">${h.type}</div>
+                <div class="text-xs mt-1">
+                    <span class="text-pink-300">Rating ${h.rating}</span>
+                    <span class="text-slate-400 mx-1">·</span>
+                    <span class="text-pink-400">${h.location}</span>
+                </div>
+            </div>
+            <a href="tel:${h.phone}" class="text-blue-400 text-xs hover:text-blue-300 flex-shrink-0" style="white-space:nowrap;"><i class="fas fa-phone mr-1"></i>Call</a>
+        </div>`).join('')}
+    </div></div>`;
+    box.scrollTop = box.scrollHeight;
+}
 
 /* ════════════════ DASHBOARD RENDER ════════════════ */
 function renderDashboard() {
@@ -938,12 +1342,12 @@ function renderDashboard() {
         </div>
         <div class="stat-card purple">
             <div class="stat-icon purple"><i class="fas fa-user-md"></i></div>
-            <div class="stat-number text-purple-400">${doctorsVisited}</div>
+            <div class="stat-number text-pink-300">${doctorsVisited}</div>
             <div class="stat-label">Doctors Consulted</div>
         </div>
         <div class="stat-card green">
             <div class="stat-icon green"><i class="fas fa-heartbeat"></i></div>
-            <div class="stat-number text-green-400">${score}</div>
+            <div class="stat-number text-pink-300">${score}</div>
             <div class="stat-label">Health Score / 100</div>
         </div>
         <div class="stat-card pink">
@@ -953,7 +1357,7 @@ function renderDashboard() {
         </div>
         <div class="stat-card amber">
             <div class="stat-icon amber"><i class="fas fa-stethoscope"></i></div>
-            <div class="stat-number text-amber-400">${DOCTORS.length}</div>
+            <div class="stat-number text-pink-300">${DOCTORS.length}</div>
             <div class="stat-label">Specialists Available</div>
         </div>
     `;
@@ -964,13 +1368,13 @@ function renderDashboard() {
     const offset = circumference - (score / 100) * circumference;
     setTimeout(() => { if(ring) ring.style.strokeDashoffset = offset; }, 100);
     const lbl = document.getElementById('dash-ring-label');
-    if(lbl){ lbl.textContent = score + '/100'; lbl.style.color = score >= 70 ? '#34d399' : score >= 40 ? '#fbbf24' : '#f87171'; }
+    if(lbl){ lbl.textContent = score + '/100'; lbl.style.color = score >= 70 ? 'var(--accent-pink)' : score >= 40 ? 'var(--primary-blue)' : '#f87171'; }
 
     // ── Bar chart (mock weekly data) ──
     const days = ['M','T','W','T','F','S','S'];
     const vals = [2,5,3,7,4,6,3];
     const maxV = Math.max(...vals);
-    const barColors = ['#3b82f6','#8b5cf6','#3b82f6','#10b981','#3b82f6','#ec4899','#3b82f6'];
+    const barColors = ['#2F80ED','#EC407A','#F8BBD0','#2F80ED','#EC407A','#F8BBD0','#2F80ED'];
     document.getElementById('dash-bar-chart').innerHTML = days.map((d,i) => `
         <div class="bar-wrap">
             <div class="bar" style="height:${Math.max(8,(vals[i]/maxV)*70)}px;background:${barColors[i]};opacity:0.8;"></div>
@@ -1193,13 +1597,13 @@ function doctorCard(d) {
             <div><div class="font-semibold">${d.name}</div><div class="text-sm text-slate-400">${d.spec}</div></div>
         </div>
         <div class="flex items-center gap-3 text-sm text-slate-300 flex-wrap">
-            <span><i class="fas fa-star text-yellow-400"></i> ${d.rating}</span>
+            <span><i class="fas fa-star text-pink-300"></i> ${d.rating}</span>
             <span><i class="fas fa-briefcase text-blue-400"></i> ${d.exp}</span>
             <span><i class="fas fa-map-marker-alt text-pink-400"></i> ${d.dist}</span>
         </div>
         <div class="flex items-center justify-between mt-3">
             <span class="badge">${d.cat}</span>
-            <span class="text-sm font-semibold text-green-400">${d.fee}</span>
+            <span class="text-sm font-semibold text-pink-300">${d.fee}</span>
         </div>
         <div class="text-xs text-slate-500 mt-2"><i class="fas fa-hospital"></i> ${d.hospital}</div>
     </div>`;
@@ -1261,15 +1665,15 @@ function getCallButtonHtml(d) {
                     <i class="fas fa-spinner fa-spin"></i> Waiting...
                 </button>`;
     } else if (state === 'approved') {
-        return `<button class="video-call-btn" style="background:rgba(16,185,129,0.2); border-color:#34d399; color:#34d399;" onclick="event.stopPropagation(); processPayment(event, ${d.id}, '${d.fee}')">
+        return `<button class="video-call-btn" style="background:rgba(236,64,122,0.15); border-color:var(--accent-pink); color:var(--accent-pink);" onclick="event.stopPropagation(); processPayment(event, ${d.id}, '${d.fee}')">
                     <i class="fas fa-credit-card"></i> Pay ${d.fee}
                 </button>`;
     } else if (state === 'paid') {
-        return `<button class="video-call-btn" style="background:rgba(59,130,246,0.3); border-color:#60a5fa; color:#fff;" onclick="event.stopPropagation(); openCallModal(event, ${d.id})">
+        return `<button class="video-call-btn" style="background:rgba(47,128,237,0.18); border-color:var(--primary-blue); color:#fff;" onclick="event.stopPropagation(); openCallModal(event, ${d.id})">
                     <i class="fas fa-video"></i> Connect Call
                 </button>`;
     } else if (state === 'denied') {
-        return `<button class="video-call-btn" style="background:rgba(239,68,68,0.2); border-color:#f87171; color:#f87171;" disabled onclick="event.stopPropagation();">
+        return `<button class="video-call-btn" style="background:rgba(236,64,122,0.15); border-color:var(--accent-pink); color:var(--accent-pink);" disabled onclick="event.stopPropagation();">
                     <i class="fas fa-ban"></i> Denied
                 </button>`;
     }
@@ -1341,7 +1745,7 @@ function renderAppointments() {
             </div>
             <div class="text-right flex-shrink-0">
                 <div class="status-badge">Confirmed ✓</div>
-                <div class="text-sm font-semibold text-green-400 mt-2">${a.fee}</div>
+                <div class="text-sm font-semibold text-pink-300 mt-2">${a.fee}</div>
             </div>
         </div>`).join('');
 }
@@ -1370,7 +1774,7 @@ function renderBooking() {
         <div class="p-3 mb-2 rounded-xl" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05);">
             <div class="flex justify-between items-start mb-1">
                 <div class="font-semibold text-sm text-blue-300"><i class="fas fa-user-circle mr-1"></i>${escHtml(r.user)}</div>
-                <div class="text-yellow-400 text-xs">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+                <div class="text-pink-300 text-xs">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
             </div>
             <div class="text-xs text-slate-300 mt-1">${escHtml(r.text)}</div>
             <div class="text-[10px] text-slate-500 mt-2 text-right">${r.date}</div>
@@ -1381,7 +1785,7 @@ function renderBooking() {
             <h3 class="text-xl font-bold">Doctor Profile & Booking</h3>
             <button onclick="closeModal('booking-modal')" class="text-slate-400 hover:text-white text-xl"><i class="fas fa-times"></i></button>
         </div>
-        <div class="flex items-center gap-4 p-4 rounded-xl mb-5" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1)); border:1px solid rgba(59,130,246,0.2);">
+        <div class="flex items-center gap-4 p-4 rounded-xl mb-5" style="background:linear-gradient(135deg,rgba(47,128,237,0.1),rgba(236,64,122,0.1)); border:1px solid rgba(236,64,122,0.2);">
             <div class="doc-avatar" style="width:64px;height:64px;font-size:1.5rem;">${initials(d.name)}</div>
             <div class="flex-1">
                 <div class="font-bold text-lg">${d.name}</div>
@@ -1392,7 +1796,7 @@ function renderBooking() {
                 </div>
             </div>
             <div class="text-center bg-black/20 p-2 rounded-lg border border-white/10">
-                <div class="text-yellow-400 text-lg font-bold"><i class="fas fa-star"></i> ${d.rating}</div>
+                <div class="text-pink-300 text-lg font-bold"><i class="fas fa-star"></i> ${d.rating}</div>
                 <div class="text-[10px] text-slate-400">${reviews.length} Reviews</div>
             </div>
         </div>
@@ -1412,9 +1816,9 @@ function renderBooking() {
                 ${slots.map(s=>`<div class="time-slot" onclick="pickSlot(this,'${s}')">${s}</div>`).join('')}
             </div>
         </div>
-        <div class="flex items-center justify-between p-3 rounded-xl mb-1" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">
+        <div class="flex items-center justify-between p-3 rounded-xl mb-1" style="background:rgba(236,64,122,0.1);border:1px solid rgba(236,64,122,0.2);">
             <span class="text-sm text-slate-300">Consultation Fee</span>
-            <span class="font-bold text-green-400">${d.fee}</span>
+            <span class="font-bold text-pink-300">${d.fee}</span>
         </div>
         <button class="confirm-btn mb-6" onclick="confirmBooking()"><i class="fas fa-check-circle mr-2"></i>Confirm Booking</button>
         <div class="mt-2 pt-5" style="border-top:1px solid rgba(255,255,255,0.1);">
@@ -1623,9 +2027,9 @@ async function analyzePrescription(base64, mimeType, dataUrl, textData, userText
 }
 
 function renderRxAnalysis(rx) {
-    const urgColor = {LOW:'#34d399', MODERATE:'#fbbf24', HIGH:'#f87171'}[rx.urgencyLevel]||'#60a5fa';
-    const urgBg    = {LOW:'rgba(16,185,129,0.15)', MODERATE:'rgba(245,158,11,0.15)', HIGH:'rgba(239,68,68,0.15)'}[rx.urgencyLevel]||'rgba(59,130,246,0.15)';
-    const urgBdr   = {LOW:'rgba(16,185,129,0.35)',  MODERATE:'rgba(245,158,11,0.35)',  HIGH:'rgba(239,68,68,0.35)'}[rx.urgencyLevel]||'rgba(59,130,246,0.35)';
+    const urgColor = {LOW:'#2F80ED', MODERATE:'#EC407A', HIGH:'#EC407A'}[rx.urgencyLevel]||'#2F80ED';
+    const urgBg    = {LOW:'rgba(236,64,122,0.15)', MODERATE:'rgba(47,128,237,0.15)', HIGH:'rgba(239,68,68,0.15)'}[rx.urgencyLevel]||'rgba(47,128,237,0.15)';
+    const urgBdr   = {LOW:'rgba(236,64,122,0.35)',  MODERATE:'rgba(47,128,237,0.35)',  HIGH:'rgba(239,68,68,0.35)'}[rx.urgencyLevel]||'rgba(47,128,237,0.35)';
 
     const medsHtml = (rx.medicines||[]).map(m=>`
         <div class="rx-med-row">
@@ -1644,7 +2048,7 @@ function renderRxAnalysis(rx) {
         </div>`).join('');
 
     const instrHtml = (rx.instructions||[]).map(i=>
-        `<div style="display:flex;gap:8px;margin-bottom:6px;"><span style="color:#60a5fa;flex-shrink:0;">→</span><span class="text-sm" style="color:#cbd5e1;">${escHtml(i)}</span></div>`
+        `<div style="display:flex;gap:8px;margin-bottom:6px;"><span style="color:var(--primary-blue);flex-shrink:0;">→</span><span class="text-sm" style="color:#cbd5e1;">${escHtml(i)}</span></div>`
     ).join('');
 
     const box = document.getElementById('chat-box');
@@ -1652,7 +2056,7 @@ function renderRxAnalysis(rx) {
     <div class="msg-wrapper">
       <div class="msg ai-msg" style="max-width:100%;width:100%;padding:0;">
         <div class="rx-analysis-card">
-          <div style="background:linear-gradient(135deg,rgba(139,92,246,0.22),rgba(59,130,246,0.22));border-radius:10px;padding:14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <div style="background:linear-gradient(135deg,rgba(236,64,122,0.14),rgba(47,128,237,0.14));border-radius:10px;padding:14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
             <div>
               <div style="font-weight:700;font-size:1rem;color:#e2e8f0;">🧾 Document Analysis Complete</div>
               <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">Automated Scanner Mode</div>
@@ -1674,7 +2078,7 @@ function renderRxAnalysis(rx) {
             </div>
           </div>
           <div class="rx-section-title"><i class="fas fa-stethoscope" style="font-size:13px;"></i>Diagnosis / Condition</div>
-          <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:12px;font-size:0.9rem;color:#e2e8f0;margin-bottom:4px;">
+          <div style="background:rgba(47,128,237,0.1);border:1px solid rgba(47,128,237,0.2);border-radius:10px;padding:12px;font-size:0.9rem;color:#e2e8f0;margin-bottom:4px;">
             ${escHtml(rx.diagnosis||'Not specified')}
           </div>
           ${medsHtml ? `<div class="rx-section-title"><i class="fas fa-pills" style="font-size:13px;"></i>Prescribed Medicines (${(rx.medicines||[]).length})</div>${medsHtml}` : ''}
@@ -1682,13 +2086,13 @@ function renderRxAnalysis(rx) {
           <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;">${instrHtml}</div>`:''}
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
             ${rx.followUp&&rx.followUp!=='Not specified'?`
-            <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:12px;">
-              <div style="font-size:0.72rem;font-weight:700;color:#34d399;margin-bottom:4px;"><i class="fas fa-calendar-check mr-1"></i>FOLLOW-UP</div>
+            <div style="background:rgba(236,64,122,0.1);border:1px solid rgba(236,64,122,0.2);border-radius:10px;padding:12px;">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--accent-pink);margin-bottom:4px;"><i class="fas fa-calendar-check mr-1"></i>FOLLOW-UP</div>
               <div style="font-size:0.85rem;color:#cbd5e1;">${escHtml(rx.followUp)}</div>
             </div>`:''}
             ${rx.specialistRecommended&&rx.specialistRecommended!=='Not specified'?`
-            <div style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);border-radius:10px;padding:12px;">
-              <div style="font-size:0.72rem;font-weight:700;color:#a78bfa;margin-bottom:4px;"><i class="fas fa-user-md mr-1"></i>RECOMMENDED</div>
+            <div style="background:rgba(236,64,122,0.1);border:1px solid rgba(236,64,122,0.2);border-radius:10px;padding:12px;">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--accent-pink);margin-bottom:4px;"><i class="fas fa-user-md mr-1"></i>RECOMMENDED</div>
               <div style="font-size:0.85rem;color:#cbd5e1;">${escHtml(rx.specialistRecommended)}</div>
             </div>`:''}
           </div>
@@ -1735,9 +2139,10 @@ function resetChat() {
 function initChat() {
     const name = currentUser ? currentUser.name.split(' ')[0] : 'there';
     chatState.stage = 'greeting';
+    requestUserLocation();
     aiMsg(`👋 Hi <b>${name}</b>! I'm <b>MediBot</b>, your personal health assistant.<br><br>
 I'll ask a few questions to understand your condition and connect you with the right doctor.<br><br>
-💬 <b>Describe your symptoms below</b>, or tap the <span style="background:rgba(139,92,246,0.3);border-radius:6px;padding:2px 7px;color:#a78bfa;font-size:0.85rem;"><i class="fas fa-paperclip"></i></span> button to <b>attach a document (Image/PDF/Text)</b> for instant AI analysis! 🔬`);
+💬 <b>Describe your symptoms below</b>, or tap the <span style="background:rgba(236,64,122,0.18);border-radius:6px;padding:2px 7px;color:var(--accent-pink);font-size:0.85rem;"><i class="fas fa-paperclip"></i></span> button to <b>attach a document (Image/PDF/Text)</b> for instant AI analysis! 🔬`);
 }
 
 function sendMessage(text) {
@@ -1820,7 +2225,7 @@ const L = {
         emergency_call:`🚨 <b>EMERGENCY: Please call 108 or go to the nearest hospital immediately!</b>`,
         followup_book: `Head to the <b>Doctors</b> tab or click any doctor card above to book! 📅`,
         followup_hosp: null,
-        followup_upload:`Tap the <b><i class="fas fa-paperclip" style="color:#a78bfa;"></i> purple button</b> to attach a document for AI analysis! 📸`,
+        followup_upload:`Tap the <b><i class="fas fa-paperclip" style="color:var(--accent-pink);"></i> pink button</b> to attach a document for AI analysis! 📸`,
         followup_thx:  `You're welcome! 😊 Take care. 💙`,
         followup_bye:  `Take care! 👋 Wishing you a speedy recovery.`,
         followup_else: `I'm here if you have more questions!<br>• Ask about <b>hospitals</b> nearby<br>• <b>Book an appointment</b><br>• <b>Upload a document</b><br>• Click <b>Reset</b> to start a new check`,
@@ -1969,6 +2374,14 @@ function handleFollowUp(t, originalText) {
         aiMsg(ls.followup_book);
     else if (t.includes('hospital')||t.includes('emergency')||t.includes('अस्पताल')||t.includes('হাসপাতাল'))
         showHospitals();
+    else if (t.includes('diabetes')||t.includes('blood sugar')||t.includes('insulin')||t.includes('thyroid'))
+        showRecommendedDocs('Endocrine');
+    else if (t.includes('cardio')||t.includes('cardiologist')||t.includes('heart')||t.includes('chest pain'))
+        showRecommendedDocs('Heart');
+    else if (t.includes('skin')||t.includes('rash')||t.includes('acne')||t.includes('allergy')||t.includes('itch'))
+        showRecommendedDocs('Skin');
+    else if (t.includes('tooth')||t.includes('teeth')||t.includes('dental')||t.includes('gum')||t.includes('toothache'))
+        showRecommendedDocs('Dental');
     else if (t.includes('prescription')||t.includes('rx')||t.includes('upload')||t.includes('document')||t.includes('दस्तावेज')||t.includes('ডকুমেন্ট')||t.includes('attach'))
         aiMsg(ls.followup_upload);
     else if (t.includes('thank')||t.includes('धन्यवाद')||t.includes('शुक्रिया')||t.includes('ধন্যবাদ'))
@@ -1992,80 +2405,94 @@ function detectCondition(t) {
         {category:"Brain",   urgency:"MODERATE", pct:55,color:"#f59e0b",label:"MODERATE",
          kw:['headache','dizziness','dizzy','vertigo','lightheaded','सिरदर्द','चक्कर','মাথাব্যথা','মাথা ঘোরা'],
          advice:"neurological", spec:"Neurologist"},
-        {category:"Stomach", urgency:"MODERATE", pct:50,color:"#3b82f6",label:"MODERATE",
+        {category:"Endocrine", urgency:"MODERATE", pct:55,color:"#f97316",label:"MODERATE",
+         kw:['diabetes','blood sugar','high sugar','low sugar','insulin','polyuria','thirst','weight loss','weight gain','hormone','thyroid','type 1','type 2',
+             'डायबिटीज','मधुमेह','শর্করা','ডায়াবেটিস'],
+         advice:"endocrine", spec:"Endocrinologist"},
+        {category:"Stomach", urgency:"MODERATE", pct:50,color:"#2F80ED",label:"MODERATE",
          kw:['stomach','abdomen','abdominal','nausea','vomiting','diarrhea','constipation','indigestion','acid reflux','bloating','gas','gastric',
-             'पेट','जी मिचलाना','उल्टी','दस्त','कब्ज','एसिडिटी','গ্যাস','পেটে ব্যথা','বমি','ডায়রিয়া','কোষ্ঠকাঠিন্য','অ্যাসিডিটি'],
+             'पेट','जी मिचलाना','उल्टी','दस्त','कब्ज','एसিডिटी','গ্যাস','পেটে ব্যথা','बমি','ডায়রিয়া','কোষ্ঠকাঠিন্য','অ্যাসিডিটি'],
          advice:"gastrointestinal", spec:"Gastroenterologist"},
-        {category:"Bone",    urgency:"MODERATE", pct:50,color:"#3b82f6",label:"MODERATE",
+        {category:"Bone",    urgency:"MODERATE", pct:50,color:"#2F80ED",label:"MODERATE",
          kw:['bone','joint','fracture','sprain','back pain','knee','arthritis','muscle pain','shoulder','neck pain',
              'हड्डी','जोड़','कमर','घुटना','মাংসপেশী','হাড়','জয়েন্ট','কোমর','হাঁটু'],
          advice:"orthopedic", spec:"Orthopedic"},
-        {category:"Eye",     urgency:"MODERATE", pct:52,color:"#3b82f6",label:"MODERATE",
+        {category:"Eye",     urgency:"MODERATE", pct:52,color:"#2F80ED",label:"MODERATE",
          kw:['eye','vision','blurry','blurred','red eye','eye pain','cataract','sight','आंख','नज़र','धुंधला','চোখ','দৃষ্টি','ঝাপসা'],
          advice:"ophthalmological", spec:"Ophthalmologist"},
-        {category:"Dental",  urgency:"LOW",      pct:40,color:"#8b5cf6",label:"LOW",
+        {category:"Dental",  urgency:"LOW",      pct:40,color:"#EC407A",label:"LOW",
          kw:['tooth','teeth','dental','gum','cavity','toothache','wisdom tooth','jaw','दांत','मसूड़ा','দাঁত','মাড়ি'],
          advice:"dental", spec:"Dentist"},
-        {category:"Skin",    urgency:"LOW",      pct:35,color:"#10b981",label:"LOW",
+        {category:"Skin",    urgency:"LOW",      pct:35,color:"#2F80ED",label:"LOW",
          kw:['skin','rash','acne','itching','itch','allergy','pimple','eczema','psoriasis','hives','redness',
              'त्वचा','खुजली','दाने','चर्म','চর্ম','চুলকানি','র‍্যাশ','অ্যালার্জি'],
          advice:"dermatological", spec:"Dermatologist"},
-        {category:"General", urgency:"LOW",      pct:30,color:"#10b981",label:"LOW",
-         kw:['fever','cough','cold','flu','sore throat','body ache','runny nose','fatigue','tired','weakness','sneeze',
+        {category:"General", urgency:"LOW",      pct:30,color:"#2F80ED",label:"LOW",
+         kw:['fever','cough','cold','flu','sore throat','body ache','runny nose','fatigue','tired','weakness','feel weak','not feeling well','not well','unwell','sneeze',
              'बुखार','खांसी','जुकाम','गला','थकान','কাশি','জ্বর','সর্দি','গলা ব্যথা','ক্লান্তি'],
          advice:"general", spec:"General Physician"},
     ];
-    let best=null, bestScore=0;
-    for (const c of conds) { const s=c.kw.filter(k=>t.includes(k)).length; if(s>bestScore){bestScore=s;best=c;} }
-    return best||{category:"General",urgency:"LOW",pct:25,color:"#10b981",label:"LOW",advice:"general",spec:"General Physician"};
+    let best=null, bestScore=0, matched=[];
+    for (const c of conds) {
+        const found = c.kw.filter(k => t.includes(k));
+        if (found.length > bestScore) {
+            bestScore = found.length;
+            best = c;
+            matched = found;
+        }
+    }
+    if (best) {
+        return { ...best, symptomsDetected: [...new Set(matched)] };
+    }
+    return { category:"General", urgency:"LOW", pct:25, color:"#2F80ED", label:"LOW", advice:"general", spec:"General Physician", symptomsDetected: [] };
 }
 
 function showFullAnalysis() {
-    const col=chatState.collected, cond=col.condition, isCrit=col.urgency==='CRITICAL';
+    const col = chatState.collected, cond = col.condition, isCrit = col.urgency === 'CRITICAL';
     const ls = L[col._lang || 'en'];
-    aiMsg(`<b>📋 ${col._lang==='hi'?'स्वास्थ्य सारांश':col._lang==='bn'?'স্বাস্থ্য সারাংশ':'Health Summary'}</b><br><br>
-        <div style="margin-bottom:12px;font-weight:600;">${ls.consult(cond.spec)}</div>
-        <b>${col._lang==='hi'?'लक्षण':col._lang==='bn'?'লক্ষণ':'Symptoms'}:</b> ${escHtml(col.symptomText)}<br>
-        <b>${col._lang==='hi'?'अवधि':col._lang==='bn'?'সময়কাল':'Duration'}:</b> ${escHtml(col.duration)}<br>
-        <b>${col._lang==='hi'?'गंभीरता':col._lang==='bn'?'তীব্রতা':'Severity'}:</b> ${escHtml(col.severity)}<br><br>
-        <b>${col._lang==='hi'?'प्राथमिकता':col._lang==='bn'?'অগ্রাধিকার':'Priority'}:</b> <span style="color:${cond.color};font-weight:700;">${isCrit?'🚨 CRITICAL':cond.label}</span><br><br>
-        ${isCrit?ls.emergency_call+'<br><br>':''}
-        <div style="padding:8px 12px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:8px;font-size:0.75rem;color:#fbbf24;line-height:1.5;">${ls.disclaimer}</div>`);
+    const responsePayload = buildChatResponse(col);
 
-    const box=document.getElementById('chat-box');
-    box.innerHTML+=`<div class="msg-wrapper"><div class="analysis-card" style="max-width:90%;">
+    aiMsg(`<b>📋 ${col._lang === 'hi' ? 'स्वास्थ्य सारांश' : col._lang === 'bn' ? 'স্বাস্থ্য সারাংশ' : 'Health Summary'}</b><br><br>
+        <div style="margin-bottom:12px;font-weight:600;">${ls.consult(cond.spec)}</div>
+        <b>${col._lang === 'hi' ? 'लक्षण' : col._lang === 'bn' ? 'লক্ষণ' : 'Symptoms'}:</b> ${escHtml(col.symptomText)}<br>
+        <b>${col._lang === 'hi' ? 'अवधि' : col._lang === 'bn' ? 'সময়কাল' : 'Duration'}:</b> ${escHtml(col.duration)}<br>
+        <b>${col._lang === 'hi' ? 'गंभीरता' : col._lang === 'bn' ? 'তীব্রতা' : 'Severity'}:</b> ${escHtml(col.severity)}<br><br>
+        <b>${col._lang === 'hi' ? 'प्राथमिकता' : col._lang === 'bn' ? 'অগ্রাধিকার' : 'Priority'}:</b> <span style="color:${cond.color};font-weight:700;">${isCrit ? '🚨 CRITICAL' : cond.label}</span><br><br>
+        ${isCrit ? ls.emergency_call + '<br><br>' : ''}
+        <div style="padding:8px 12px;background:rgba(236,64,122,0.1);border:1px solid rgba(236,64,122,0.25);border-radius:8px;font-size:0.75rem;color:var(--accent-pink);line-height:1.5;">${ls.disclaimer}</div>`);
+
+    const box = document.getElementById('chat-box');
+    box.innerHTML += `<div class="msg-wrapper"><div class="analysis-card" style="max-width:90%;">
         <div class="flex items-center justify-between mb-2"><b>🔬 Risk Assessment</b>
-            <span style="color:${cond.color};font-size:0.85rem;font-weight:700;">${isCrit?'🚨 CRITICAL':cond.label}</span></div>
-        <div class="severity-bar"><div class="severity-fill" style="width:${isCrit?99:cond.pct}%;background:linear-gradient(90deg,${cond.color},${cond.color}aa);"></div></div>
-        <div class="text-xs text-slate-400">Risk Level: ${isCrit?99:cond.pct}%</div>
+            <span style="color:${cond.color};font-size:0.85rem;font-weight:700;">${isCrit ? '🚨 CRITICAL' : cond.label}</span></div>
+        <div class="severity-bar"><div class="severity-fill" style="width:${isCrit ? 99 : cond.pct}%;background:linear-gradient(90deg,${cond.color},${cond.color}aa);"></div></div>
+        <div class="text-xs text-slate-400">Risk Level: ${isCrit ? 99 : cond.pct}%</div>
         <div class="routing-info mt-3">
-            <div class="text-xs font-semibold text-green-400 mb-1">🧭 Smart Routing Result</div>
-            <div class="text-xs text-slate-300">Recommended: <b>${cond.spec}</b> · Priority: <b>${isCrit?'CRITICAL':col.urgency}</b></div>
+            <div class="text-xs font-semibold text-pink-300 mb-1">🧭 Smart Routing Result</div>
+            <div class="text-xs text-slate-300">Recommended: <b>${cond.spec}</b> · Priority: <b>${isCrit ? 'CRITICAL' : col.urgency}</b></div>
         </div>
     </div></div>`;
-    box.scrollTop=box.scrollHeight;
-    setTimeout(()=>{ isCrit?showHospitals():showRecommendedDocs(cond.category); }, 600);
+    box.scrollTop = box.scrollHeight;
+    console.log('AI chat response payload:', responsePayload);
+    setTimeout(() => { renderChatRecommendations(responsePayload); }, 500);
 }
 
 function showRecommendedDocs(category) {
-    const list=(DOCTORS.filter(d=>d.cat===category).length?DOCTORS.filter(d=>d.cat===category):DOCTORS.filter(d=>d.cat==='General'));
-    const box=document.getElementById('chat-box');
-    box.innerHTML+=`<div class="msg-wrapper"><div class="msg ai-msg" style="max-width:100%;width:100%;">
-        <b>👨‍⚕️ Recommended Specialists Near You</b>
+    const condition = typeof category === 'object' ? category : { category };
+    const list = rankDoctors(condition);
+    const box = document.getElementById('chat-box');
+    box.innerHTML += `<div class="msg-wrapper"><div class="msg ai-msg" style="max-width:100%;width:100%;">
+        <b>👨‍⚕️ Recommended Doctors</b>
         <div class="text-xs text-slate-400 mt-1 mb-2">Click a doctor to view profile & book instantly</div>
-        ${list.map(d=>`<div class="rec-doc-card" onclick="openBooking(${d.id})">
+        ${list.map(d => `<div class="rec-doc-card" onclick="openBooking(${d.id})" style="margin-bottom:12px;">
             <div class="doc-avatar" style="width:44px;height:44px;font-size:0.9rem;flex-shrink:0;">${initials(d.name)}</div>
             <div style="flex:1;min-width:0;">
-                <div style="margin-bottom:4px;">
-                    , ${d.id})">
-                        <i${getCallButtonHtml(d).replace('class="video-call-btn"', 'class="video-call-btn" style="padding:3px 8px;font-size:0.7rem;border-radius:6px;"')}
-                </div>
                 <div class="font-semibold text-sm">${d.name}</div>
                 <div class="text-xs text-slate-400">${d.spec} · ${d.hospital}</div>
                 <div class="text-xs mt-1">
-                    <span class="text-yellow-400">⭐ ${d.rating}</span>
+                    <span class="text-pink-300">⭐ ${d.rating}</span>
                     <span class="text-slate-400 mx-1">·</span>
-                    <span class="text-green-400">${d.fee}</span>
+                    <span class="text-pink-300">${d.exp}</span>
                     <span class="text-slate-400 mx-1">·</span>
                     <span class="text-pink-400"><i class="fas fa-map-marker-alt"></i> ${d.dist}</span>
                 </div>
@@ -2073,24 +2500,30 @@ function showRecommendedDocs(category) {
             <i class="fas fa-chevron-right text-slate-500 flex-shrink-0"></i>
         </div>`).join('')}
     </div></div>`;
-    box.scrollTop=box.scrollHeight;
-    setTimeout(()=>{ aiMsg(`Would you like to know about <b>nearby hospitals</b>? Type <b>"hospitals"</b> or ask me anything else! 😊`); }, 400);
+    box.scrollTop = box.scrollHeight;
+    setTimeout(() => { aiMsg(`Would you like to know about <b>nearby hospitals</b>? Type <b>"hospitals"</b> or ask me anything else! 😊`); }, 400);
 }
 
 function showHospitals() {
     const box=document.getElementById('chat-box');
+    const errorLine = hospitalFetchError ? `<div class="text-xs text-pink-300 mt-2">${hospitalFetchError}</div>` : '';
     box.innerHTML+=`<div class="msg-wrapper"><div class="msg ai-msg" style="max-width:100%;width:100%;">
         <b>🏥 Nearby Hospitals</b>
         <div class="text-xs text-slate-400 mt-1 mb-3">Emergency & Advanced Care Facilities</div>
-        ${HOSPITALS.map(h=>`<div class="rec-doc-card" style="cursor:default;">
+        ${rankHospitals().map(h=>`<div class="rec-doc-card" style="cursor:default;">
             <div class="doc-avatar" style="width:44px;height:44px;font-size:1.2rem;flex-shrink:0;background:linear-gradient(135deg,#ef4444,#dc2626);">🏥</div>
             <div style="flex:1;min-width:0;">
                 <div class="font-semibold text-sm">${h.name}</div>
                 <div class="text-xs text-slate-400">${h.type}</div>
-                <div class="text-xs mt-1 text-pink-400"><i class="fas fa-map-marker-alt mr-1"></i>${h.dist}</div>
+                <div class="text-xs mt-1">
+                    <span class="text-pink-300">Rating ${h.rating}</span>
+                    <span class="text-slate-400 mx-1">·</span>
+                    <span class="text-pink-400"><i class="fas fa-map-marker-alt mr-1"></i>${h.location || h.dist}</span>
+                </div>
             </div>
             <a href="tel:${h.phone}" class="text-blue-400 text-xs hover:text-blue-300 flex-shrink-0"><i class="fas fa-phone mr-1"></i>${h.phone}</a>
         </div>`).join('')}
+        ${errorLine}
         <div class="text-xs text-red-400 mt-3 font-semibold">🚨 For medical emergencies call <b>108</b> immediately.</div>
     </div></div>`;
     box.scrollTop=box.scrollHeight;
