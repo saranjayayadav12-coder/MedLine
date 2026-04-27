@@ -524,37 +524,39 @@ body { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org
             <button id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
         </div>
         
-        <div id="signup-name-wrap" class="inp-wrap" style="display:none;">
-            <i class="fas fa-user"></i>
-            <input id="reg-name" class="login-input" type="text" placeholder="Full Name">
-        </div>
-        <div class="inp-wrap">
-            <i class="fas fa-envelope"></i>
-            <input id="reg-email" class="login-input" type="text" placeholder="Email or Phone Number">
-        </div>
-        <div id="signup-age-wrap" class="inp-wrap" style="display:none;">
-            <i class="fas fa-calendar-alt"></i>
-            <input id="reg-age" class="login-input" type="number" placeholder="Age" min="1" max="120">
-        </div>
-        <div id="signup-gender-wrap" class="inp-wrap" style="display:none;">
-            <i class="fas fa-venus-mars"></i>
-            <select id="reg-gender" class="login-input" style="appearance: none; color: #64748b;" onchange="this.style.color='white'">
-                <option value="" disabled selected>Select Gender</option>
-                <option value="Male" style="color: black;">Male</option>
-                <option value="Female" style="color: black;">Female</option>
-                <option value="Other" style="color: black;">Other</option>
-            </select>
-        </div>
-        <div class="inp-wrap">
-            <i class="fas fa-lock"></i>
-            <input id="reg-pass" class="login-input" type="password" placeholder="Password">
-            <i class="fas fa-eye toggle-pass" onclick="togglePass()"></i>
-        </div>
-        <div id="auth-error" style="display:none;" class="err-msg"></div>
-        <button class="login-btn" onclick="handleAuth()">
-            <i class="fas fa-sign-in-alt mr-2" id="auth-icon"></i>
-            <span id="auth-btn-label">Login</span>
-        </button>
+        <form onsubmit="event.preventDefault(); handleAuth();" style="width:100%;">
+            <div id="signup-name-wrap" class="inp-wrap" style="display:none;">
+                <i class="fas fa-user"></i>
+                <input id="reg-name" class="login-input" type="text" placeholder="Full Name">
+            </div>
+            <div class="inp-wrap">
+                <i class="fas fa-envelope"></i>
+                <input id="reg-email" class="login-input" type="text" placeholder="Email or Phone Number">
+            </div>
+            <div id="signup-age-wrap" class="inp-wrap" style="display:none;">
+                <i class="fas fa-calendar-alt"></i>
+                <input id="reg-age" class="login-input" type="number" placeholder="Age" min="1" max="120">
+            </div>
+            <div id="signup-gender-wrap" class="inp-wrap" style="display:none;">
+                <i class="fas fa-venus-mars"></i>
+                <select id="reg-gender" class="login-input" style="appearance: none; color: #64748b;" onchange="this.style.color='white'">
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="Male" style="color: black;">Male</option>
+                    <option value="Female" style="color: black;">Female</option>
+                    <option value="Other" style="color: black;">Other</option>
+                </select>
+            </div>
+            <div class="inp-wrap">
+                <i class="fas fa-lock"></i>
+                <input id="reg-pass" class="login-input" type="password" placeholder="Password">
+                <i class="fas fa-eye toggle-pass" onclick="togglePass()"></i>
+            </div>
+            <div id="auth-error" style="display:none;" class="err-msg"></div>
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt mr-2" id="auth-icon"></i>
+                <span id="auth-btn-label">Login</span>
+            </button>
+        </form>
         <p class="text-center text-xs text-slate-500 mt-4">
             <i class="fas fa-shield-alt mr-1"></i> Secure authentication
         </p>
@@ -1030,7 +1032,7 @@ body { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org
     <div class="modal review-scroll"><div id="booking-content"></div></div>
 </div>
 
-<div id="call-modal" class="modal-overlay" onclick="if(event.target===this)closeModal('call-modal')">
+<div id="call-modal" class="modal-overlay" onclick="if(event.target===this){endCall(); closeModal('call-modal');}">
     <div class="modal review-scroll">
         <div class="flex items-center justify-between mb-4">
             <div>
@@ -1048,6 +1050,11 @@ body { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org
                 <div class="video-label" id="call-doctor-label">Connecting to doctor...</div>
                 <video id="modalRemoteVideo" autoplay playsinline class="rounded-xl bg-black"></video>
             </div>
+        </div>
+        <div class="flex justify-center mt-6">
+            <button class="px-6 py-3 rounded-full text-white font-bold transition-transform transform hover:scale-105" style="background:var(--accent-pink); box-shadow:0 4px 15px rgba(236,64,122,0.4);" onclick="endCall(); closeModal('call-modal')">
+                <i class="fas fa-phone-slash mr-2"></i>End Call
+            </button>
         </div>
     </div>
 </div>
@@ -1067,7 +1074,7 @@ window.addEventListener('load', () => {
             if (splash) {
                 splash.style.display = 'none';
             }
-            if (login) {
+            if (login && !currentUser) {
                 login.style.display = 'flex';
             }
         }, 850);
@@ -1473,7 +1480,9 @@ function showError(msg) {
 }
 
 function handleAuth() {
-    const email = document.getElementById('reg-email').value.trim();
+    let email = document.getElementById('reg-email').value.trim();
+    if (email) email = email.toLowerCase();
+    
     const password = document.getElementById('reg-pass').value.trim();
     const name = document.getElementById('reg-name').value.trim();
     const age = document.getElementById('reg-age')?.value.trim();
@@ -1637,7 +1646,6 @@ function renderFilteredDocs(cat) {
         : '<div class="text-slate-400 col-span-full text-center py-10">No doctors found in this category.</div>';
 } 
 /* ════════════════ VIDEO CALL PERMISSION LOGIC ════════════════ */
-// Track permissions in local storage so it persists if the user refreshes
 let callPermissions = JSON.parse(localStorage.getItem('ml_call_perms') || '{}');
 
 function saveCallPermissions() {
@@ -1682,24 +1690,29 @@ function getCallButtonHtml(d) {
 function requestCall(evt, docId, fee) {
     evt.preventDefault(); evt.stopPropagation();
     
-    // Set state to pending and update UI
     callPermissions[docId] = 'pending';
     saveCallPermissions();
     refreshDoctorLists();
 
-    // Simulate Doctor reviewing the request (takes 3 seconds)
     setTimeout(() => {
-        // Simulated logic: 80% chance doctor approves, 20% chance they deny
         const isApproved = Math.random() > 0.2; 
         
-        callPermissions[docId] = isApproved ? 'approved' : 'denied';
-        saveCallPermissions();
-        refreshDoctorLists();
-
-        if(isApproved) {
+        if (isApproved) {
+            callPermissions[docId] = 'approved';
+            saveCallPermissions();
+            refreshDoctorLists();
             alert(`Doctor granted permission! Please pay the consultation fee of ${fee} to connect.`);
         } else {
-            alert(`Permission Denied: The doctor is currently busy or unavailable.`);
+            callPermissions[docId] = 'denied';
+            saveCallPermissions();
+            refreshDoctorLists();
+            
+            setTimeout(() => {
+                alert(`Permission Denied: The doctor is currently busy or unavailable.`);
+                callPermissions[docId] = 'none';
+                saveCallPermissions();
+                refreshDoctorLists();
+            }, 100);
         }
     }, 3000);
 }
@@ -1707,7 +1720,6 @@ function requestCall(evt, docId, fee) {
 function processPayment(evt, docId, fee) {
     evt.preventDefault(); evt.stopPropagation();
     
-    // Simulate a payment gateway popup
     const confirmPay = confirm(`Proceed to pay ${fee} for the video consultation?`);
     if (confirmPay) {
         callPermissions[docId] = 'paid';
@@ -1926,16 +1938,26 @@ function startVideoCall(useModal = false) {
         .catch(() => { alert('Unable to access camera and microphone for the call.'); });
 }
 
+let currentCallDoctorId = null;
+
 function endCall() {
     if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
     const lv = document.getElementById('modalLocalVideo');
     const rv = document.getElementById('modalRemoteVideo');
     if (lv) lv.srcObject = null;
     if (rv) rv.srcObject = null;
+
+    if (currentCallDoctorId !== null) {
+        callPermissions[currentCallDoctorId] = 'none';
+        saveCallPermissions();
+        refreshDoctorLists();
+        currentCallDoctorId = null;
+    }
 }
 
 function openCallModal(evt, id) {
     evt.preventDefault(); evt.stopPropagation();
+    currentCallDoctorId = id;
     const doctor = DOCTORS.find(d => d.id === id) || { name: 'Doctor' };
     document.getElementById('call-doctor-label').textContent = `Connecting with ${doctor.name}...`;
     openModal('call-modal');
@@ -2001,35 +2023,41 @@ function clearPendingRx() {
 async function analyzePrescription(base64, mimeType, dataUrl, textData, userText) {
     const isPdf = mimeType === 'application/pdf';
     const isImg = mimeType.startsWith('image/');
-    const isText = mimeType.startsWith('text/');
     const patientName = currentUser ? currentUser.name : "Patient";
 
     let docTypeStr = isPdf ? "PDF Lab Report" : isImg ? "Image Prescription" : "Text Clinical Notes";
 
+    // SMART FEATURE: Dynamically extract conditions based on user text alongside the upload
+    const combinedText = ((userText || '') + ' ' + (pendingRx.file?.name || '')).toLowerCase();
+    const conditionHint = detectCondition(combinedText);
+    
+    let diagnosisStr = conditionHint.category === "General" && isPdf ? "Routine Blood Panel (CBC)" : 
+                       conditionHint.category !== "General" ? `Suspected ${conditionHint.category} related condition` : 
+                       "General Clinical Assessment";
+                       
+    let specialistStr = conditionHint.spec !== "General Physician" ? conditionHint.spec : (isPdf ? "General Physician" : "ENT Specialist");
+
     const mockRx = {
       "patientInfo": { "name": patientName, "age": currentUser?.dob ? "Adult" : "Not specified", "date": new Date().toLocaleDateString('en-US') },
       "doctor": { "name": isPdf ? "City Diagnostics Lab" : "Dr. S. K. Consultant", "registration": "Reg: MED-8942", "hospital": isPdf ? "Pathology Dept" : "General Hospital" },
-      "diagnosis": isPdf ? "Routine Blood Panel (CBC)" : isImg ? "Acute Pharyngitis / Viral Fever" : "General Clinical Assessment",
+      "diagnosis": diagnosisStr,
       "medicines": isImg ? [
         { "name": "Azithromycin", "dosage": "500mg", "frequency": "Once daily (OD)", "duration": "5 days", "purpose": "Antibiotic for bacterial infection", "sideEffects": ["Stomach upset", "Nausea"], "precautions": "Take 1 hour before or 2 hours after meals", "category": "Antibiotic" },
-        { "name": "Paracetamol", "dosage": "650mg", "frequency": "As needed (SOS)", "duration": "3 days", "purpose": "Fever/Pain Relief", "sideEffects": [], "precautions": "Do not exceed 4 tablets in 24 hours", "category": "Antipyretic" },
-        { "name": "Vitamin C", "dosage": "500mg", "frequency": "Once daily", "duration": "10 days", "purpose": "Immunity booster", "sideEffects": [], "precautions": "None", "category": "Supplement" }
+        { "name": "Paracetamol", "dosage": "650mg", "frequency": "As needed (SOS)", "duration": "3 days", "purpose": "Fever/Pain Relief", "sideEffects": [], "precautions": "Do not exceed 4 tablets in 24 hours", "category": "Antipyretic" }
       ] : [],
-      "instructions": isPdf ? ["Maintain normal hydration", "Fasting required for next glucose test", "WBC count is slightly elevated indicating mild infection"] : isImg ? ["Get plenty of rest", "Drink warm fluids", "Gargle with warm salt water 3 times a day"] : ["Follow prescribed diet", "Monitor symptoms daily"],
+      "instructions": isPdf ? ["Maintain normal hydration", "Fasting required for next glucose test", "WBC count is slightly elevated indicating mild infection"] : ["Get plenty of rest", "Drink warm fluids"],
       "followUp": isPdf ? "Consult General Physician with these reports" : "After 5 days if symptoms persist",
-      "specialistRecommended": isPdf ? "General Physician" : "ENT Specialist",
-      "urgencyLevel": isPdf ? "LOW" : "MODERATE",
-      "summary": isPdf ? `Analyzed ${docTypeStr}. The document appears to be a laboratory test report. Key parameters: Hemoglobin is normal (14.2 g/dL). Leukocytes (WBC) show slight elevation (11,500/mcL), which may indicate a mild active infection. No critical flags detected. Please consult your referring physician.` :
-                 isImg ? `Analyzed ${docTypeStr}. This is a standard prescription containing antibiotics and antipyretics. Ensure you complete the full 5-day antibiotic course even if you feel better. Hydration is highly recommended.` :
-                 `Analyzed ${docTypeStr}. The text notes suggest a routine assessment with no severe critical markers. Monitor your condition as advised.`
+      "specialistRecommended": specialistStr,
+      "urgencyLevel": conditionHint.urgency,
+      "summary": `Analyzed ${docTypeStr}. ${diagnosisStr !== "General Clinical Assessment" ? "Indicators suggest a focus on " + conditionHint.category + " health." : "Standard review completed."} No highly critical flags detected automatically, but please consult your referring physician.`
     };
     renderRxAnalysis(mockRx);
 }
 
 function renderRxAnalysis(rx) {
-    const urgColor = {LOW:'#2F80ED', MODERATE:'#EC407A', HIGH:'#EC407A'}[rx.urgencyLevel]||'#2F80ED';
-    const urgBg    = {LOW:'rgba(236,64,122,0.15)', MODERATE:'rgba(47,128,237,0.15)', HIGH:'rgba(239,68,68,0.15)'}[rx.urgencyLevel]||'rgba(47,128,237,0.15)';
-    const urgBdr   = {LOW:'rgba(236,64,122,0.35)',  MODERATE:'rgba(47,128,237,0.35)',  HIGH:'rgba(239,68,68,0.35)'}[rx.urgencyLevel]||'rgba(47,128,237,0.35)';
+    const urgColor = {LOW:'#2F80ED', MODERATE:'#EC407A', HIGH:'#EC407A', URGENT:'#EC407A', CRITICAL:'#ef4444'}[rx.urgencyLevel]||'#2F80ED';
+    const urgBg    = {LOW:'rgba(236,64,122,0.15)', MODERATE:'rgba(47,128,237,0.15)', HIGH:'rgba(239,68,68,0.15)', URGENT:'rgba(239,68,68,0.15)', CRITICAL:'rgba(239,68,68,0.25)'}[rx.urgencyLevel]||'rgba(47,128,237,0.15)';
+    const urgBdr   = {LOW:'rgba(236,64,122,0.35)',  MODERATE:'rgba(47,128,237,0.35)',  HIGH:'rgba(239,68,68,0.35)', URGENT:'rgba(239,68,68,0.4)', CRITICAL:'rgba(239,68,68,0.6)'}[rx.urgencyLevel]||'rgba(47,128,237,0.35)';
 
     const medsHtml = (rx.medicines||[]).map(m=>`
         <div class="rx-med-row">
@@ -2123,11 +2151,40 @@ function detectCatFromSpec(spec) {
     if (s.includes('ophthal')||s.includes('eye'))    return 'Eye';
     if (s.includes('ent')||s.includes('oral')||s.includes('dent'))       return 'Dental';
     if (s.includes('general')||s.includes('physician')) return 'General';
+    if (s.includes('endo')||s.includes('diabet')) return 'Endocrine';
     return null;
 }
 
 /* ════════════════ CHATBOT ════════════════ */
 let chatState = { stage:'idle', collected:{} };
+
+// --- SMART NLP HELPER FUNCTIONS ---
+function extractEntities(text) {
+    const entities = { duration: null, severity: null };
+    // Extracts patterns like "3 days", "2 weeks"
+    const durMatch = text.match(/(\d+)\s*(day|days|week|weeks|month|months|hour|hours)/i);
+    if (durMatch) entities.duration = durMatch[0];
+
+    // Extracts common severity keywords
+    const sevMatch = text.match(/(severe|mild|moderate|extreme|unbearable|terrible|worst|slight|intense|sharp|dull)/i);
+    if (sevMatch) entities.severity = sevMatch[0];
+
+    return entities;
+}
+
+function isNegated(kw, text) {
+    // Smart Negation: Checks if words like "no", "not", or "without" appear up to 3 words before the keyword
+    const regex = new RegExp(`(?:no|not|without|deny|denies)\\s+(?:\\w+\\s+){0,3}${kw}`, 'i');
+    return regex.test(text);
+}
+
+// Basic Medical FAQ Knowledge Base
+const FAQ_DB = [
+    { kw: ['blood pressure', 'bp'], ans: "Normal blood pressure for most adults is defined as a systolic pressure of less than 120 and a diastolic pressure of less than 80 (120/80 mmHg)." },
+    { kw: ['fever', 'temperature', 'normal body temp'], ans: "A normal body temperature is around 98.6°F (37°C). A fever is generally indicated when body temperature rises above 100.4°F (38°C)." },
+    { kw: ['sugar level', 'glucose', 'diabetes'], ans: "A normal fasting blood sugar level is less than 100 mg/dL. Levels between 100 and 125 mg/dL suggest prediabetes." },
+    { kw: ['water', 'hydrate', 'drink'], ans: "It is generally recommended to drink about 8 glasses (2 liters) of water a day, but this varies based on activity and climate." }
+];
 
 function resetChat() {
     document.getElementById('chat-box').innerHTML = '';
@@ -2141,7 +2198,7 @@ function initChat() {
     chatState.stage = 'greeting';
     requestUserLocation();
     aiMsg(`👋 Hi <b>${name}</b>! I'm <b>MediBot</b>, your personal health assistant.<br><br>
-I'll ask a few questions to understand your condition and connect you with the right doctor.<br><br>
+I can answer medical FAQs, analyze your symptoms, and connect you with the right doctor.<br><br>
 💬 <b>Describe your symptoms below</b>, or tap the <span style="background:rgba(236,64,122,0.18);border-radius:6px;padding:2px 7px;color:var(--accent-pink);font-size:0.85rem;"><i class="fas fa-paperclip"></i></span> button to <b>attach a document (Image/PDF/Text)</b> for instant AI analysis! 🔬`);
 }
 
@@ -2211,6 +2268,269 @@ function detectLang(text) {
     if (hi) return 'hi';
     if (bn) return 'bn';
     return 'en';
+}
+
+const SYMPTOM_DICT = {
+    // Abdominal
+    "pet dard": "abdominal pain", "pet e betha": "abdominal pain",
+    "pete byatha": "abdominal pain", "pote byatha": "abdominal pain",
+    "pet me dard": "abdominal pain", "stomach pain": "abdominal pain",
+    // Dizziness
+    "matha ghurchhe": "dizziness", "matha ghurche": "dizziness",
+    "matha ghure": "dizziness", "mathay ghurchhe": "dizziness",
+    "chakkar aa raha": "dizziness", "chakkar": "dizziness",
+    // Acidity
+    "buk e jala": "acidity", "buke jele": "acidity", "buke jala": "acidity",
+    "chati te jala": "acidity", "pet me jalan": "acidity", "jalan ho rahi": "acidity",
+    // Gastric
+    "gas ho gaya": "gastric issue", "gas bana hua": "gastric issue",
+    "gas problem": "gastric issue", "gas e byatha": "gastric issue",
+    // Headache
+    "sir dard": "headache", "sar dard": "headache", "matha betha": "headache",
+    "matha byatha": "headache", "mathay byatha": "headache",
+    "sir me dard": "headache", "sir dard ho raha": "headache",
+    // Fever
+    "bukhar": "fever", "jor": "fever", "bukhaar": "fever",
+    "jwor": "fever", "jwar": "fever", "taap": "fever",
+    // Cough
+    "khasi": "cough", "kashi": "cough", "khansi": "cough",
+    "cough ho raha": "cough", "khansi ho rahi": "cough",
+    // Sore throat
+    "gla batha": "sore throat", "gola batha": "sore throat",
+    "gola byatha": "sore throat", "gale mein dard": "sore throat",
+    "gale me dard": "sore throat", "gala kharab": "sore throat",
+    "galar byatha": "sore throat", "gala betha": "sore throat",
+    // Vomiting
+    "ultiya": "vomiting", "bomi": "vomiting", "ulti": "vomiting",
+    "ulti ho rahi": "vomiting",
+    // Nausea
+    "ji mitchhano": "nausea", "ji michano": "nausea", "ji mitche": "nausea",
+    "ji mitchaiche": "nausea", "jee michla raha": "nausea",
+    "ji mechlacche": "nausea",
+    // Breathing
+    "sans": "breathing problem", "shash kosto": "breathing problem",
+    "shwas kosto": "breathing problem", "saans lene mein dikkat": "breathing problem",
+    "saans nahi aa rahi": "breathing problem",
+    // Chest pain
+    "chati me dard": "chest pain", "buke betha": "chest pain",
+    "buke byatha": "chest pain", "buk e byatha": "chest pain",
+    "chati te byatha": "chest pain", "seene mein dard": "chest pain",
+    "seene me dard": "chest pain",
+    // Diarrhea
+    "dast": "diarrhea", "patla paykhana": "diarrhea",
+    "patal paykhana": "diarrhea", "loose motion": "diarrhea",
+    // Eye irritation
+    "chok e jala": "eye irritation", "chokh e jele": "eye irritation",
+    "chokh jele": "eye irritation", "chokh jala": "eye irritation",
+    "chokhe jele": "eye irritation", "chokhe jala": "eye irritation",
+    "chokh lal": "eye irritation", "aankhon mein jalan": "eye irritation",
+    "aankh mein jalan": "eye irritation", "aankh jal rahi": "eye irritation",
+    "chok jele": "eye irritation", "chok jala": "eye irritation",
+    "chokhe byatha": "eye irritation", "chok e byatha": "eye irritation",
+    // Eye discharge
+    "chokh theke pani": "eye discharge", "chokhe pani": "eye discharge",
+    "aankhon se pani": "eye discharge",
+    // Ear pain
+    "kan e byatha": "ear pain", "kane byatha": "ear pain",
+    "kane betha": "ear pain", "kan e betha": "ear pain",
+    "kaan mein dard": "ear pain", "kaan dard": "ear pain",
+    "kaner byatha": "ear pain",
+    // Skin
+    "gaye khujli": "skin rash", "rash hocche": "skin rash",
+    "charmar lal": "skin rash", "charmar khachy": "skin rash",
+    // Dental
+    "danto byatha": "dental pain", "dant dard": "dental pain",
+    "daat byatha": "dental pain", "tooth dard": "dental pain",
+    // Urinary
+    "peshab jalate": "urinary pain", "urine e jala": "urinary pain",
+    "pashabey jale": "urinary pain", "prastab e jala": "urinary pain",
+    // Constipation
+    "kabziyat": "constipation", "kosto paykhana": "constipation",
+    "kathhin paykhana": "constipation",
+    // Weakness
+    "kamjori": "weakness", "durbalta": "weakness",
+    "sarire durbalta": "weakness", "body weak": "weakness",
+    // Cold limbs
+    "hath pair thanda": "cold extremities", "hath pao thande": "cold extremities"
+};
+
+function detectLanguage(text) {
+    const hiScript = /[\u0900-\u097F]/.test(text);
+    const bnScript = /[\u0980-\u09FF]/.test(text);
+    
+    const hinglishKw = ['hai', 'ho', 'raha', 'mujhe', 'dard', 'pet', 'sir', 'sar', 'bukhar', 'gaya', 'kya', 'kaise', 'thoda', 'aur', 'samajh', 'nahi', 'aaya', 'me', 'se'];
+    const bengalishKw = ['ami', 'amar', 'kemon', 'ache', 'betha', 'matha', 'ghurchhe', 'ghurche', 'jani', 'na', 'khub', 'kosto', 'e', 'te'];
+    
+    const words = text.toLowerCase().split(/\s+/);
+    
+    let hiCount = words.filter(w => hinglishKw.includes(w)).length;
+    let bnCount = words.filter(w => bengalishKw.includes(w)).length;
+    
+    if (hiScript) return 'Hindi';
+    if (bnScript) return 'Bengali';
+    if (hiCount > 0 && hiCount >= bnCount) return 'Hinglish';
+    if (bnCount > 0 && bnCount > hiCount) return 'Bengalish';
+    return 'English';
+}
+
+function normalizeSymptom(text) {
+    let normalized = text.toLowerCase();
+    normalized = normalized.replace(/byatha|beda/g, 'betha');
+    for (const [key, value] of Object.entries(SYMPTOM_DICT)) {
+        if (normalized.includes(key)) {
+            normalized = normalized.replace(new RegExp(key, 'g'), value);
+        }
+    }
+    return normalized;
+}
+
+function analyzeIntent(text) {
+    const normText = normalizeSymptom(text);
+    const raw = text.toLowerCase();
+    const intent = { symptom: null, severity: 'mild', duration: 'unknown', specialist: 'General Physician' };
+
+    const durMatch = normText.match(/(today|aj|kal|\d+\s*(day|days|din|week|weeks|month|months|hour|hours)|long time|kal se|aj theke|onek din|bahut din|kuch din|kuch dino|few days)/i);
+    if (durMatch) intent.duration = durMatch[0];
+
+    const severeKw = /(severe|extreme|unbearable|worst|terrible|intense|bahut|tezz|khub|onek|kothin)/i;
+    const moderateKw = /(moderate|thoda|alpo|ektu)/i;
+    if (severeKw.test(normText)) intent.severity = 'severe';
+    else if (moderateKw.test(normText)) intent.severity = 'moderate';
+
+    // Primary dictionary-normalized symptom list (extended)
+    const symptomsList = [
+        'chest pain','breathing problem','eye irritation','eye discharge',
+        'ear pain','sore throat','nausea','dental pain','urinary pain',
+        'skin rash','constipation','weakness','cold extremities',
+        'abdominal pain','dizziness','acidity','gastric issue',
+        'headache','fever','cough','vomiting','diarrhea'
+    ];
+    for (let sym of symptomsList) {
+        if (normText.includes(sym)) { intent.symptom = sym; break; }
+    }
+
+    // REGEX FALLBACK — catches phrases not in SYMPTOM_DICT
+    if (!intent.symptom) {
+        const patterns = [
+            [/chok|chokh|aankhon?|aankh|eye/,'eye irritation'],
+            [/kan[e]?\s*(e\s*)?byatha|kaan|ear\s*pain/,'ear pain'],
+            [/gol[ae]\s*b[ae]tha|gol[ae]\s*by[ae]tha|gala\s*(khar[ae]b|dard)|gale|throat/,'sore throat'],
+            [/chest|seene|buke?\s*(dard|byatha|chhap|betha)/,'chest pain'],
+            [/shwas|saans|breath|shash/,'breathing problem'],
+            [/dant|daato?|tooth|teeth|dental/,'dental pain'],
+            [/peshab|urine|urinary/,'urinary pain'],
+            [/rash|khujli|charmar|skin|eczema/,'skin rash'],
+            [/kabz|constip|paykhana\s*hoch|kosto\s*paykhana/,'constipation'],
+            [/weak|kamjori|durbalt/,'weakness'],
+            [/nausea|ji\s*mich|bomi|ulti|vomit/,'nausea'],
+            [/headache|sir\s*dard|sar\s*dard|matha\s*b[ye]tha|mathay/,'headache'],
+            [/fever|bukhar|jwor|taap/,'fever'],
+            [/cough|khasi|khansi|kashi/,'cough'],
+            [/stomach|abdomen|pet\s*(dard|me|mein)|pete\s*b[ye]tha/,'abdominal pain'],
+            [/dizzin|chakkar|matha\s*ghur/,'dizziness'],
+            [/diarrhea|loose\s*motion|dast|paykhana/,'diarrhea'],
+            [/acidity|jalan|buke?\s*jal/,'acidity'],
+        ];
+        for (let [re, sym] of patterns) {
+            if (re.test(raw)) { intent.symptom = sym; break; }
+        }
+    }
+
+    // Map symptom → specialist
+    const specMap = {
+        'chest pain':'Cardiologist','breathing problem':'Cardiologist',
+        'eye irritation':'Ophthalmologist','eye discharge':'Ophthalmologist',
+        'ear pain':'ENT Specialist','sore throat':'ENT Specialist',
+        'dental pain':'Dentist',
+        'skin rash':'Dermatologist',
+        'urinary pain':'Urologist',
+        'headache':'Neurologist','dizziness':'Neurologist',
+        'weakness':'General Physician','cold extremities':'General Physician',
+        'fever':'General Physician','cough':'General Physician',
+        'nausea':'Gastroenterologist','vomiting':'Gastroenterologist',
+        'abdominal pain':'Gastroenterologist','diarrhea':'Gastroenterologist',
+        'acidity':'Gastroenterologist','gastric issue':'Gastroenterologist',
+        'constipation':'Gastroenterologist',
+    };
+    if (intent.symptom && specMap[intent.symptom]) intent.specialist = specMap[intent.symptom];
+
+    return intent;
+}
+
+const MEDICINE_DICT = {
+    'headache': 'Paracetamol (e.g., Crocin 500mg) for pain relief',
+    'fever': 'Paracetamol (e.g., Dolo 650) to reduce temperature',
+    'abdominal pain': 'Antispasmodic (e.g., Meftal-Spas) for cramps',
+    'acidity': 'Antacid (e.g., Gelusil or Digene) after meals',
+    'gastric issue': 'Pantoprazole (e.g., Pan 40) before breakfast',
+    'cough': 'Cough syrup (e.g., Benadryl or Honitus)',
+    'vomiting': 'Ondansetron (e.g., Emeset) for nausea',
+    'nausea': 'Ondansetron (e.g., Emeset) or Domperidone',
+    'chest pain': '⚠️ Aspirin (Disprin) — rush to Emergency immediately!',
+    'breathing problem': '⚠️ Use inhaler if prescribed — rush to Emergency!',
+    'diarrhea': 'ORS powder mixed in water + Loperamide (if severe)',
+    'dizziness': 'Betahistine (e.g., Vertin) — consult a doctor',
+    'eye irritation': 'Lubricating eye drops (e.g., Refresh Tears) — avoid screen time',
+    'eye discharge': 'Antibiotic eye drops (e.g., Moxifloxacin) — see an Ophthalmologist',
+    'ear pain': 'Paracetamol for pain. See an ENT if persists more than 2 days',
+    'sore throat': 'Warm salt water gargling + Strepsils lozenges',
+    'dental pain': 'Ibuprofen (e.g., Brufen) for temporary relief — visit a Dentist',
+    'skin rash': 'Antihistamine (e.g., Cetirizine) + Calamine lotion for itch',
+    'urinary pain': 'Drink lots of water. See a Urologist if burning persists',
+    'constipation': 'Isabgol (Psyllium husk) with warm water at bedtime',
+    'weakness': 'Multivitamin + Iron supplement (e.g., Supradyn). Eat well & rest'
+};
+
+function generateResponse(intent, language) {
+    if (!intent.symptom) {
+        if (language === 'Hindi' || language === 'Hinglish') return "Sorry, mujhe clearly samajh nahi aaya. Thoda aur detail dein.";
+        if (language === 'Bengali' || language === 'Bengalish') return "Kkhoma korben, ami thik bujhte parini. Ektu bistarito bolun.";
+        return "Sorry, I didn't clearly understand. Could you provide more details?";
+    }
+    
+    let advice = "";
+    let triage = "Low";
+    
+    if (intent.severity === 'severe' || ['chest pain', 'breathing problem'].includes(intent.symptom)) {
+        triage = "High";
+    } else if (intent.severity === 'moderate') {
+        triage = "Medium";
+    }
+    
+    if (triage === 'Low') {
+        if (language === 'Hindi' || language === 'Hinglish') advice = "Aapko ghar par aaram karna chahiye aur halka khana khana chahiye. Pani jyada piyein.";
+        else if (language === 'Bengali' || language === 'Bengalish') advice = "Aponar barite bishram neoya uchit ebong halka khabar khaoya uchit. Beshi kore jol pan korun.";
+        else advice = "You should rest at home and have light food. Drink plenty of water.";
+    } else if (triage === 'Medium') {
+        if (language === 'Hindi' || language === 'Hinglish') advice = "Aapko ek doctor se salah leni chahiye. Aap yahan appointment book kar sakte hain.";
+        else if (language === 'Bengali' || language === 'Bengalish') advice = "Aponar ekjon daktarer paramorsho neoya uchit. Apni ekhane appointment book korte paren.";
+        else advice = "You should consult a doctor. You can book an appointment here.";
+    } else {
+        if (language === 'Hindi' || language === 'Hinglish') advice = "🚨 Yeh gambhir ho sakta hai. Kripya turant nazdiki hospital jayein ya emergency me call karein!";
+        else if (language === 'Bengali' || language === 'Bengalish') advice = "🚨 Eti gurutor hote pare. Onugroho kore obillombe nikotborti haspatale jan ba emergency te call korun!";
+        else advice = "🚨 This could be serious. Please go to the nearest hospital immediately or call emergency!";
+    }
+    
+    let symptomMsg = "";
+    if (language === 'Hindi' || language === 'Hinglish') symptomMsg = `🩺 <b>Sambhavit Takleef:</b> Aapko <b>${intent.symptom}</b> ho sakta hai.`;
+    else if (language === 'Bengali' || language === 'Bengalish') symptomMsg = `🩺 <b>Sambhavit Shomossya:</b> Aponar <b>${intent.symptom}</b> hote pare.`;
+    else symptomMsg = `🩺 <b>Likely Condition:</b> You might be experiencing <b>${intent.symptom}</b>.`;
+
+    let specMsg = "";
+    if (intent.specialist && intent.specialist !== 'General Physician') {
+        if (language === 'Hindi' || language === 'Hinglish') specMsg = `👨‍⚕️ <b>Zaruri Doctor:</b> ${intent.specialist} se milein.`;
+        else if (language === 'Bengali' || language === 'Bengalish') specMsg = `👨‍⚕️ <b>Proyojoniyo Daktar:</b> ${intent.specialist}-er sathe dekha korun.`;
+        else specMsg = `👨‍⚕️ <b>See a:</b> ${intent.specialist}.`;
+    }
+
+    let medicine = MEDICINE_DICT[intent.symptom] || "Please consult a doctor for medication";
+    let medMsg = "";
+    if (language === 'Hindi' || language === 'Hinglish') medMsg = `💊 <b>Sujhavit Dawa:</b> ${medicine}.`;
+    else if (language === 'Bengali' || language === 'Bengalish') medMsg = `💊 <b>Poramorshito Oshudh:</b> ${medicine}.`;
+    else medMsg = `💊 <b>Suggested Medicine:</b> ${medicine}.`;
+
+    const parts = [symptomMsg, advice, specMsg, medMsg].filter(Boolean);
+    return parts.join('<br><br>');
 }
 
 const L = {
@@ -2297,79 +2617,65 @@ const FOLLOWUP_QS = {
     }
 };
 
+function mapLangCode(langStr) {
+    if (langStr === 'Hindi' || langStr === 'Hinglish') return 'hi';
+    if (langStr === 'Bengali' || langStr === 'Bengalish') return 'bn';
+    return 'en';
+}
+
 function processChat(text) {
-    const t=text.toLowerCase(), col=chatState.collected;
-
-    if (chatState.stage==='greeting') {
-        const lang = detectLang(text);
-        col._lang = lang;
-        chatState.stage='symptom';
-        const isHi = ['hi','hello','hey','नमस्ते','হ্যালো','নমস্কার','नमस्ते','हेलो'].some(w=>t.includes(w));
-        const ls = L[lang];
-        aiMsg(isHi ? ls.greeting_hi : ls.greeting_else);
+    const t = text.toLowerCase();
+    const lang = detectLanguage(text);
+    chatState.collected._lang = mapLangCode(lang); 
+    
+    // Greetings handling
+    const greetings = ['hi', 'hello', 'hey', 'namaste', 'nomoskar'];
+    if (greetings.some(w => t === w || t.startsWith(w + ' '))) {
+        if (lang === 'Hindi' || lang === 'Hinglish') aiMsg("Namaste! 😊 Main aapki kaise madad kar sakta hu? Apni takleef batayein.");
+        else if (lang === 'Bengali' || lang === 'Bengalish') aiMsg("Nomoskar! 😊 Ami apnake kibhabe sahajjo korte pari? Aponar shomosshar kotha bolun.");
+        else aiMsg("Hello there! 😊 What symptoms are you experiencing today?");
         return;
     }
 
-    if (chatState.stage==='symptom') {
-        const lang = detectLang(text);
-        col._lang = lang;
-        const ls = L[lang];
-        col.symptomText=text;
-        col.condition=detectCondition(t);
-        const crit=['chest pain','chest pressure',"can't breathe",'unconscious','paralysis','stroke','heart attack','severe bleeding',
-            'सीने में दर्द','छाती में दर्द','सांस नहीं','बेहोश','लकवा','दिल का दौरा',
-            'বুকে ব্যথা','শ্বাসকষ্ট','অজ্ঞান','পক্ষাঘাত','হার্ট অ্যাটাক'];
-        if (crit.some(k=>t.includes(k))) {
-            col.urgency='CRITICAL'; col.duration='N/A'; col.severity='Severe'; col.extra='Emergency';
-            chatState.stage='done';
-            aiMsg(ls.emergency);
-            setTimeout(()=>showFullAnalysis(), 800);
-            return;
-        }
-        const qsLang = FOLLOWUP_QS[lang] || FOLLOWUP_QS['en'];
-        const qs = qsLang[col.condition.category] || qsLang['General'];
-        col._followupQs = qs;
-        col._followupIdx = 0;
-        col._followupAnswers = [];
-        chatState.stage='followup';
-        aiMsg(`${ls.symptom_ack(escHtml(text))}<br><br>${qs[0]}`);
-        return;
-    }
+    const intent = analyzeIntent(text);
+    
+    if (intent.symptom) {
+        const response = generateResponse(intent, lang);
+        aiMsg(response);
+        
+        setTimeout(() => {
+            const sym = intent.symptom;
+            let cat = 'General';
+            if (['abdominal pain','acidity','gastric issue','vomiting','diarrhea','nausea','constipation'].includes(sym)) cat = 'Stomach';
+            else if (['dizziness','headache','weakness'].includes(sym)) cat = 'Brain';
+            else if (['chest pain','breathing problem'].includes(sym)) cat = 'Heart';
+            else if (['eye irritation','eye discharge'].includes(sym)) cat = 'Eye';
+            else if (['ear pain','sore throat'].includes(sym)) cat = 'ENT';
+            else if (['dental pain'].includes(sym)) cat = 'Dental';
+            else if (['skin rash'].includes(sym)) cat = 'Skin';
+            else if (['bone pain','cold extremities'].includes(sym)) cat = 'Bone';
 
-    if (chatState.stage==='followup') {
-        const lang = detectLang(text);
-        if (lang !== 'en') col._lang = lang;
-        const ls = L[col._lang || 'en'];
-        col._followupAnswers.push(text);
-        col._followupIdx++;
-        const qs = col._followupQs;
-        if (col._followupIdx < qs.length) {
-            aiMsg(`${ls.gotit}<br><br>${qs[col._followupIdx]}`);
-            return;
-        }
-        chatState.stage='done';
-        col.duration = col._followupAnswers[0] || 'N/A';
-        col.severity = col._followupAnswers[1] || 'N/A';
-        col.extra = col._followupAnswers.slice(1).join('; ') || 'N/A';
-        const combined = (col.symptomText + ' ' + col._followupAnswers.join(' ')).toLowerCase();
-        const refined = detectCondition(combined);
-        if (refined.category !== 'General' || col.condition.category === 'General') col.condition = refined;
-        const severeKw = ['severe','very','extreme','unbearable','worst','terrible','intense','sudden','तेज़','बहुत','असहनीय','তীব্র','অসহ্য','খুব'];
-        if (severeKw.some(k=>combined.includes(k))) col.urgency='URGENT';
-        else if (['moderate','affecting','মাঝারি','মধ্যম','थोड़ा'].some(k=>combined.includes(k))) col.urgency='MODERATE';
-        else col.urgency = col.urgency || 'LOW';
-        const crit2=['chest pain','chest pressure','সীনে में दर्द','বুকে ব্যথা','heart attack','दिल का दौरा','হার্ট অ্যাটাক'];
-        if (crit2.some(k=>combined.includes(k))) col.urgency='CRITICAL';
-        showFullAnalysis();
-        return;
-    }
+            const condition = detectCondition(text);
+            if (intent.specialist) condition.spec = intent.specialist;
+            condition.category = cat;
 
-    if (chatState.stage==='done') { handleFollowUp(t, text); return; }
+            chatState.collected.condition = condition;
+            chatState.collected.urgency = condition.urgency;
+            chatState.collected.symptomText = intent.symptom;
+            chatState.collected.duration = intent.duration || 'Not specified';
+            chatState.collected.severity = intent.severity || 'mild';
+            
+            showFullAnalysis();
+        }, 1000);
+    } else {
+        handleFollowUp(t, text);
+    }
 }
 
 function handleFollowUp(t, originalText) {
-    const lang = detectLang(originalText || t);
-    const ls = L[chatState.collected._lang || lang || 'en'];
+    const lang = detectLanguage(originalText || t);
+    const langCode = mapLangCode(lang);
+    const ls = L[chatState.collected._lang || langCode || 'en'];
     if (t.includes('book')||t.includes('appointment')||t.includes('बुक')||t.includes('অ্যাপয়েন্টমেন্ট'))
         aiMsg(ls.followup_book);
     else if (t.includes('hospital')||t.includes('emergency')||t.includes('अस्पताल')||t.includes('হাসপাতাল'))
@@ -2432,15 +2738,26 @@ function detectCondition(t) {
              'बुखार','खांसी','जुकाम','गला','थकान','কাশি','জ্বর','সর্দি','গলা ব্যথা','ক্লান্তি'],
          advice:"general", spec:"General Physician"},
     ];
-    let best=null, bestScore=0, matched=[];
+    
+    let best = null, bestScore = 0, matched = [];
+    
     for (const c of conds) {
-        const found = c.kw.filter(k => t.includes(k));
-        if (found.length > bestScore) {
-            bestScore = found.length;
+        let score = 0;
+        let matchedKw = [];
+        for (const k of c.kw) {
+            // SMART FILTER: Only count keywords if they aren't negated ("no fever")
+            if (t.includes(k) && !isNegated(k, t)) {
+                score++;
+                matchedKw.push(k);
+            }
+        }
+        if (score > bestScore) {
+            bestScore = score;
             best = c;
-            matched = found;
+            matched = matchedKw;
         }
     }
+    
     if (best) {
         return { ...best, symptomsDetected: [...new Set(matched)] };
     }
@@ -2473,7 +2790,6 @@ function showFullAnalysis() {
         </div>
     </div></div>`;
     box.scrollTop = box.scrollHeight;
-    console.log('AI chat response payload:', responsePayload);
     setTimeout(() => { renderChatRecommendations(responsePayload); }, 500);
 }
 
@@ -2543,7 +2859,10 @@ function startVoiceInput() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) { showMicStatus('Browser does not support voice input. Try Chrome or Edge.', 'error'); return; }
     voiceRecognition = new SpeechRecognition();
-    const voiceLang = (chatState.collected._lang === 'hi') ? 'hi-IN' : (chatState.collected._lang === 'bn') ? 'bn-IN' : 'en-US';
+    let voiceLang = 'en-IN';
+    const lang = chatState.collected._lang;
+    if (lang === 'Hindi' || lang === 'Hinglish') voiceLang = 'hi-IN';
+    else if (lang === 'Bengali' || lang === 'Bengalish') voiceLang = 'bn-IN';
     voiceRecognition.lang = voiceLang;
     voiceRecognition.interimResults  = true;
     voiceRecognition.continuous      = false;
